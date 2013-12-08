@@ -1,0 +1,21 @@
+{
+    "name": "especially",
+    "description": "Abstract operations and other functions drawn from the ECMAScript specification",
+    "keywords": ["ecmascript", "es6"],
+    "version": "1.0.0",
+    "author": "Domenic Denicola <domenic@domenicdenicola.com> (http://domenic.me)",
+    "license": "WTFPL",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/domenic/especially.git"
+    },
+    "bugs": "http://github.com/domenic/especially/issues",
+    "scripts": {
+        "test": "mocha --harmony",
+        "lint": "jshint ."
+    },
+    "devDependencies": {
+        "jshint": "~2.3.0",
+        "mocha": "~1.15.1"
+    }
+}

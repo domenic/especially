@@ -1,0 +1,8 @@
+/node_modules/
+/npm-debug.log
+
+/test/
+/.jshintrc
+/.jshintignore
+/.npmignore
+/.travis.yml
