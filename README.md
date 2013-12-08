@@ -10,13 +10,17 @@ Especially has no main module (*gasp*). Instead, you'll require one of the top-l
 
 ### require("especially/abstract-operations")
 
+- [ArrayCreate](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-arraycreate)
+- [Get](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-get-o-p)
+- [GetPrototypeFromConstructor](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-getprototypefromconstructor)
 - [IsCallable](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-iscallable)
 - [IsConstructor](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-isconstructor): not spec compliant, but the best we can do
-- [Type](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-ecmascript-data-types-and-values): returns the types as strings, e.g. `"Object"`.
 - [IsPropertyKey](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-ispropertykey)
-- [Get](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-get-o-p)
+- [ObjectCreate](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-objectcreate)
+- [OrdinaryConstruct](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-ordinaryconstruct): use this to get ES6 `new` semantics, with `@@create` support.
+- [OrdinaryCreateFromConstructor](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-ordinarycreatefromconstructor)
 - [SameValue](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-samevalue)
-- [ArrayCreate](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-arraycreate)
+- [Type](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-ecmascript-data-types-and-values): returns the types as strings, e.g. `"Object"`.
 
 ### require("especially/meta")
 
@@ -27,6 +31,16 @@ Especially has no main module (*gasp*). Instead, you'll require one of the top-l
     - `get_slot(object, name)`: get the value of an internal slot. Often referenced in the spec as "the value of (object)'s [[SlotName]] internal slot."
     - `set_slot(object, name)`: set the value of an internal slot. Often referenced in the spec as "Set (object)'s [[SlotName]] internal slot to (a value)."
     - `has_slot(object)`: check whether an object has an internal slot with the given name. Often referenced in the spec as "If (object) does not have a [[SlotName]] internal slot."
+
+### require("especially/well-known-symbols")
+
+One [well-known symbol](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-well-known-symbols) is included:
+
+- `"@@create"` will give you a symbol that is used by OrdinaryConstruct and related operations.
+
+### require("especially/intrinsics")
+
+Some of the [well-known intrinsic objects](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-well-known-intrinsic-objects) are included by name, e.g. `"%ObjectPrototype%"`. These are used by GetPrototypeFromConstructor and related operations.
 
 ## Usage Notes
 

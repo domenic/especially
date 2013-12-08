@@ -1,6 +1,9 @@
 "use strict";
 
 var assert = require("./meta").assert;
+var intrinsics = require("./intrinsics");
+var make_slots = require("./meta").make_slots;
+var atAtCreate = require("./well-known-symbols")["@@create"];
 
 // http://people.mozilla.org/~jorendorff/es6-draft.html#sec-iscallable
 exports.IsCallable = function (argument) {
@@ -74,4 +77,67 @@ exports.ArrayCreate = function (length) {
     }
 
     return new Array(length);
+};
+
+// http://people.mozilla.org/~jorendorff/es6-draft.html#sec-objectcreate
+exports.ObjectCreate = function (proto, internalDataList) {
+    if (internalDataList === undefined) {
+        internalDataList = [];
+    }
+
+    let obj = Object.create(proto);
+    make_slots(obj, internalDataList);
+
+    return obj;
+};
+
+// http://people.mozilla.org/~jorendorff/es6-draft.html#sec-getprototypefromconstructor
+exports.GetPrototypeFromConstructor = function (constructor, intrinsicDefaultProto) {
+    assert(exports.Type(intrinsicDefaultProto) === "String" && intrinsicDefaultProto in intrinsics);
+
+    if (exports.IsConstructor(constructor) === false) {
+        throw new TypeError("Given a non-constructor");
+    }
+
+    var proto = exports.Get(constructor, "prototype");
+
+    if (exports.Type(proto) !== "Object") {
+        proto = intrinsics[intrinsicDefaultProto];
+    }
+
+    return proto;
+};
+
+// http://people.mozilla.org/~jorendorff/es6-draft.html#sec-ordinarycreatefromconstructor
+exports.OrdinaryCreateFromConstructor = function (constructor, intrinsicDefaultProto, internalDataList) {
+    assert(exports.Type(intrinsicDefaultProto) === "String" && intrinsicDefaultProto in intrinsics);
+
+    let proto = exports.GetPrototypeFromConstructor(constructor, intrinsicDefaultProto);
+    return exports.ObjectCreate(proto, internalDataList);
+};
+
+// http://people.mozilla.org/~jorendorff/es6-draft.html#sec-ordinaryconstruct
+exports.OrdinaryConstruct = function (F, argumentsList) {
+    let creator = exports.Get(F, atAtCreate);
+    var obj;
+    if (creator !== undefined) {
+        if (exports.IsCallable(creator) === false) {
+            throw new TypeError("Non-callable @@create value");
+        }
+        obj = creator();
+    } else {
+        obj = exports.OrdinaryCreateFromConstructor(F, "%ObjectPrototype%");
+    }
+
+    if (exports.Type(obj) !== "Object") {
+        throw new TypeError("Non-object created.");
+    }
+
+    let result = F.apply(obj, argumentsList);
+
+    if (exports.Type(result) === "Object") {
+        return result;
+    }
+
+    return obj;
 };
