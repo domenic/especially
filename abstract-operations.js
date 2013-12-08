@@ -4,6 +4,7 @@ var assert = require("./meta").assert;
 var intrinsics = require("./intrinsics");
 var make_slots = require("./meta").make_slots;
 var atAtCreate = require("./well-known-symbols")["@@create"];
+var atAtIterator = require("./well-known-symbols")["@@iterator"];
 
 // http://people.mozilla.org/~jorendorff/es6-draft.html#sec-iscallable
 exports.IsCallable = function (argument) {
@@ -151,6 +152,11 @@ exports.ToObject = function (argument) {
     return Object(argument);
 };
 
+// http://people.mozilla.org/~jorendorff/es6-draft.html#sec-toboolean
+exports.ToBoolean = function (argument) {
+    return Boolean(argument);
+};
+
 // http://people.mozilla.org/~jorendorff/es6-draft.html#sec-getmethod
 exports.GetMethod = function (O, P) {
     assert(exports.Type(O) === "Object");
@@ -185,4 +191,54 @@ exports.Invoke = function (O, P, args) {
     }
 
     return func.apply(O, args);
+};
+
+// http://people.mozilla.org/~jorendorff/es6-draft.html#sec-getiterator
+exports.GetIterator = function (obj) {
+    let iterator = exports.Invoke(obj, atAtIterator, []);
+
+    if (exports.Type(iterator) !== "Object") {
+        throw new TypeError("Non-object iterator returned from @@iterator");
+    }
+
+    return iterator;
+};
+
+// http://people.mozilla.org/~jorendorff/es6-draft.html#sec-iteratornext
+exports.IteratorNext = function (iterator, value) {
+    let result = exports.Invoke(iterator, "next", [value]);
+
+    if (exports.Type(result) !== "Object") {
+        throw new TypeError("Result of iterator's `next` method was not an object.");
+    }
+
+    return result;
+};
+
+// http://people.mozilla.org/~jorendorff/es6-draft.html#sec-iteratorcomplete
+exports.IteratorComplete = function (iterResult) {
+    assert(exports.Type(iterResult) === "Object");
+
+    let done = exports.Get(iterResult, "done");
+
+    return exports.ToBoolean(done);
+};
+
+// http://people.mozilla.org/~jorendorff/es6-draft.html#sec-iteratorvalue
+exports.IteratorValue = function (iterResult) {
+    assert(exports.Type(iterResult) === "Object");
+
+    return exports.Get(iterResult, "value");
+};
+
+// http://people.mozilla.org/~jorendorff/es6-draft.html#sec-iteratorstep
+exports.IteratorStep = function (iterator, value) {
+    let result = exports.IteratorNext(iterator, value);
+    let done = exports.IteratorComplete(result);
+
+    if (done === true) {
+        return false;
+    }
+
+    return result;
 };

@@ -12,16 +12,22 @@ Especially has no main module (*gasp*). Instead, you'll require one of the top-l
 
 - [ArrayCreate](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-arraycreate)
 - [Get](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-get-o-p)
+- [GetIterator](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-getiterator): uses the `@@iterator` symbol.
 - [GetMethod](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-getmethod)
 - [GetPrototypeFromConstructor](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-getprototypefromconstructor)
 - [Invoke](https://github.com/domenic/promises-unwrapping/issues/74#issuecomment-28428416)
 - [IsCallable](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-iscallable)
 - [IsConstructor](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-isconstructor): not spec compliant, but the best we can do
 - [IsPropertyKey](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-ispropertykey)
+- [IteratorComplete](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-iteratorcomplete)
+- [IteratorNext](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-iteratornext)
+- [IteratorStep](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-iteratorstep)
+- [IteratorValue](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-iteratorvalue)
 - [ObjectCreate](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-objectcreate)
 - [OrdinaryConstruct](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-ordinaryconstruct): use this to get ES6 `new` semantics, with `@@create` support.
 - [OrdinaryCreateFromConstructor](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-ordinarycreatefromconstructor)
 - [SameValue](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-samevalue)
+- [ToBoolean](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-toboolean)
 - [ToObject](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-toobject)
 - [Type](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-ecmascript-data-types-and-values): returns the types as strings, e.g. `"Object"`.
 
@@ -37,9 +43,10 @@ Especially has no main module (*gasp*). Instead, you'll require one of the top-l
 
 ### require("especially/well-known-symbols")
 
-One [well-known symbol](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-well-known-symbols) is included:
+A few [well-known symbol](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-well-known-symbols) are included:
 
 - `"@@create"` will give you a symbol that is used by OrdinaryConstruct and related operations.
+- `"@@iterator"` will give you a symbol that is used by GetIterator.
 
 ### require("especially/intrinsics")
 

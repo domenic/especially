@@ -3,6 +3,7 @@
 var abstractOps = require("../abstract-operations");
 var meta = require("../meta");
 var atAtCreate = require("../well-known-symbols")["@@create"];
+var atAtIterator = require("../well-known-symbols")["@@iterator"];
 var assert = require("assert");
 
 describe("Abstract operations", function () {
@@ -535,6 +536,48 @@ describe("Abstract operations", function () {
         });
     });
 
+    describe("ToBoolean", function () {
+        it("should return `false` for `undefined`", function () {
+            assert.strictEqual(abstractOps.ToBoolean(undefined), false);
+        });
+
+        it("should return `false` for `null`", function () {
+            assert.strictEqual(abstractOps.ToBoolean(null), false);
+        });
+
+        it("should return the input for a boolean", function () {
+            assert.strictEqual(abstractOps.ToBoolean(true), true);
+            assert.strictEqual(abstractOps.ToBoolean(false), false);
+        });
+
+        it("should return `false` for `+0`, `-0`, and `NaN`, but `true` other numbers", function () {
+            assert.strictEqual(abstractOps.ToBoolean(+0), false);
+            assert.strictEqual(abstractOps.ToBoolean(-0), false);
+            assert.strictEqual(abstractOps.ToBoolean(NaN), false);
+            assert.strictEqual(abstractOps.ToBoolean(1), true);
+            assert.strictEqual(abstractOps.ToBoolean(-1), true);
+            assert.strictEqual(abstractOps.ToBoolean(-Infinity), true);
+        });
+
+        it("should return `false` for empty strings, but `true` for other strings", function () {
+            assert.strictEqual(abstractOps.ToBoolean(""), false);
+            assert.strictEqual(abstractOps.ToBoolean(" "), true);
+            assert.strictEqual(abstractOps.ToBoolean("false"), true);
+        });
+
+        it("should return `true` for symbols", function () {
+            assert.strictEqual(abstractOps.ToBoolean(Symbol()), true);
+        });
+
+        it("should return `true` for objects", function () {
+            assert.strictEqual(abstractOps.ToBoolean({}), true);
+            assert.strictEqual(abstractOps.ToBoolean(Object.create(null)), true);
+            assert.strictEqual(abstractOps.ToBoolean(function () { }), true);
+            assert.strictEqual(abstractOps.ToBoolean(new Boolean(false)), true);
+            assert.strictEqual(abstractOps.ToBoolean(new Number(0)), true);
+        });
+    });
+
     describe("GetMethod", function () {
         it("should throw an assertion error when used on a non-object", function () {
             assert.throws(function () {
@@ -619,6 +662,154 @@ describe("Abstract operations", function () {
 
             assert.strictEqual(recordedThis, o);
             assert.deepEqual(Array.prototype.slice.call(recordedArgs), []);
+        });
+    });
+
+    describe("GetIterator", function () {
+        it("should get the iterator", function () {
+            var o = {};
+            var iterator = { the: "iterator" };
+            o[atAtIterator] = function () { return iterator; };
+
+            assert.strictEqual(abstractOps.GetIterator(o), iterator);
+        });
+
+        it("should get the iterator even if the iterator is a function", function () {
+            var o = {};
+            var iterator = function () { };
+            o[atAtIterator] = function () { return iterator; };
+
+            assert.strictEqual(abstractOps.GetIterator(o), iterator);
+        });
+
+        it("should throw a TypeError if a non-object iterator is returned", function () {
+            var o = {};
+            o[atAtIterator] = function () { return 5; };
+
+            assert.throws(function () {
+                abstractOps.GetIterator(o);
+            }, TypeError);
+        });
+
+        it("should throw a TypeError if there is no iterator", function () {
+            var o = {};
+
+            assert.throws(function () {
+                abstractOps.GetIterator(o);
+            }, TypeError);
+        });
+
+        it("should throw a TypeError if the @@iterator property is not a method", function () {
+            var o = {};
+            o[atAtIterator] = 5;
+
+            assert.throws(function () {
+                abstractOps.GetIterator(o);
+            }, TypeError);
+        });
+    });
+
+    describe("IteratorNext", function () {
+        it("should get the result of the `next()` method, if it's an object", function () {
+            var result = { the: "result" };
+            var iterator = { next: function () { return result; } };
+
+            assert.strictEqual(abstractOps.IteratorNext(iterator), result);
+        });
+
+        it("should work with `this`-dependent `next()` methods", function () {
+            var iterator = { next: function () { return this; } };
+
+            assert.strictEqual(abstractOps.IteratorNext(iterator), iterator);
+        });
+
+        it("should work with argument-dependent `next(value)` methods", function () {
+            var iterator = { next: function (value) { return { plusFive: value + 5 }; } };
+
+            assert.deepEqual(abstractOps.IteratorNext(iterator, 5), { plusFive: 10 });
+        });
+
+        it("should throw a TypeError if the `next()` method returns a non-object", function () {
+            var iterator = { next: function () { return 5; } };
+
+            assert.throws(function () {
+                abstractOps.IteratorNext(iterator);
+            });
+        });
+    });
+
+    describe("IteratorComplete", function () {
+        it("should throw an assertion error for non-object arguments", function () {
+            assert.throws(function () {
+                abstractOps.IteratorComplete(5);
+            }, /assertion failure/);
+        });
+
+        it("should get the `done` property and convert it to a boolean", function () {
+            var noProps = {};
+            var doneTrue = { done: true };
+            var doneFalse = { done: false };
+            var doneTruthy = { done: 1 };
+            var doneFalsy = { done: NaN };
+            var doneGetTruthy = { get done() { return {}; } }
+            var doneGetFalsy = { get done() { return ""; } };
+
+            assert.strictEqual(abstractOps.IteratorComplete(noProps), false);
+            assert.strictEqual(abstractOps.IteratorComplete(doneTrue), true);
+            assert.strictEqual(abstractOps.IteratorComplete(doneFalse), false);
+            assert.strictEqual(abstractOps.IteratorComplete(doneTruthy), true);
+            assert.strictEqual(abstractOps.IteratorComplete(doneFalsy), false);
+            assert.strictEqual(abstractOps.IteratorComplete(doneGetTruthy), true);
+            assert.strictEqual(abstractOps.IteratorComplete(doneGetFalsy), false);
+        });
+    });
+
+    describe("IteratorValue", function () {
+        it("should throw an assertion error for non-object arguments", function () {
+            assert.throws(function () {
+                abstractOps.IteratorValue(5);
+            }, /assertion failure/);
+        });
+
+        it("should get the `done` property and convert it to a boolean", function () {
+            var value = { the: "value" };
+
+            var noProps = {};
+            var valueTrue = { value: true };
+            var value1 = { value: 1 };
+            var valueObject = { value: value };
+            var valueGetTrue = { get value() { return true; } }
+            var valueGet1 = { get value() { return 1; } };
+            var valueGetObject = { get value() { return value; } };
+
+            assert.strictEqual(abstractOps.IteratorValue(noProps), undefined);
+            assert.strictEqual(abstractOps.IteratorValue(valueTrue), true);
+            assert.strictEqual(abstractOps.IteratorValue(value1), 1);
+            assert.strictEqual(abstractOps.IteratorValue(valueObject), value);
+            assert.strictEqual(abstractOps.IteratorValue(valueGetTrue), true);
+            assert.strictEqual(abstractOps.IteratorValue(valueGet1), 1);
+            assert.strictEqual(abstractOps.IteratorValue(valueGetObject), value);
+        });
+    });
+
+    describe("IteratorStep", function () {
+        it("should return the iterator result as long as `done` is not falsy", function () {
+            var iterator = {
+                next: function (arg) {
+                    return {
+                        value: this[arg] + 5,
+                        done: arg === "whee" ? 1 : 0
+                    };
+                },
+                prop1: 4,
+                prop2: 7,
+                whee: -1
+            };
+
+            assert.deepEqual(abstractOps.IteratorStep(iterator, "prop1"), { value: 9, done: 0 });
+            assert.deepEqual(abstractOps.IteratorStep(iterator, "prop2"), { value: 12, done: 0 });
+            assert.deepEqual(abstractOps.IteratorStep(iterator, "prop1"), { value: 9, done: 0 });
+            assert.deepEqual(abstractOps.IteratorStep(iterator, "whee"), false);
         });
     });
 });
