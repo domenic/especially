@@ -141,3 +141,48 @@ exports.OrdinaryConstruct = function (F, argumentsList) {
 
     return obj;
 };
+
+// http://people.mozilla.org/~jorendorff/es6-draft.html#sec-toobject
+exports.ToObject = function (argument) {
+    if (argument === null || argument === undefined) {
+        throw new TypeError("Null or undefined passed to ToObject");
+    }
+
+    return Object(argument);
+};
+
+// http://people.mozilla.org/~jorendorff/es6-draft.html#sec-getmethod
+exports.GetMethod = function (O, P) {
+    assert(exports.Type(O) === "Object");
+    assert(exports.IsPropertyKey(P) === true);
+
+    let func = O[P];
+
+    if (func === undefined) {
+        return undefined;
+    }
+
+    if (exports.IsCallable(func) === false) {
+        throw new TypeError("Non-callable, non-undefined method.");
+    }
+
+    return func;
+};
+
+// https://github.com/domenic/promises-unwrapping/issues/74#issuecomment-28428416
+exports.Invoke = function (O, P, args) {
+    assert(exports.IsPropertyKey(P));
+
+    if (arguments.length < 3) {
+        args = [];
+    }
+
+    let obj = exports.ToObject(O);
+    let func = exports.GetMethod(obj, P);
+
+    if (func === undefined) {
+        throw new TypeError("Tried to invoke undefined method.");
+    }
+
+    return func.apply(O, args);
+};

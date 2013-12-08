@@ -12,7 +12,9 @@ Especially has no main module (*gasp*). Instead, you'll require one of the top-l
 
 - [ArrayCreate](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-arraycreate)
 - [Get](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-get-o-p)
+- [GetMethod](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-getmethod)
 - [GetPrototypeFromConstructor](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-getprototypefromconstructor)
+- [Invoke](https://github.com/domenic/promises-unwrapping/issues/74#issuecomment-28428416)
 - [IsCallable](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-iscallable)
 - [IsConstructor](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-isconstructor): not spec compliant, but the best we can do
 - [IsPropertyKey](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-ispropertykey)
@@ -20,6 +22,7 @@ Especially has no main module (*gasp*). Instead, you'll require one of the top-l
 - [OrdinaryConstruct](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-ordinaryconstruct): use this to get ES6 `new` semantics, with `@@create` support.
 - [OrdinaryCreateFromConstructor](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-ordinarycreatefromconstructor)
 - [SameValue](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-samevalue)
+- [ToObject](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-toobject)
 - [Type](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-ecmascript-data-types-and-values): returns the types as strings, e.g. `"Object"`.
 
 ### require("especially/meta")

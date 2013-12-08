@@ -471,4 +471,154 @@ describe("Abstract operations", function () {
             assert.strictEqual(o.shouldBeF, F);
         });
     });
+
+    describe("ToObject", function () {
+        it("should throw a TypeError for `undefined`", function () {
+            assert.throws(function () {
+                abstractOps.ToObject(undefined);
+            }, TypeError);
+        });
+
+        it("should throw a TypeError for `null`", function () {
+            assert.throws(function () {
+                abstractOps.ToObject(null);
+            }, TypeError);
+        });
+
+        it("should give a wrapper object for booleans", function () {
+            var t = abstractOps.ToObject(true);
+            var f = abstractOps.ToObject(false);
+
+            assert.strictEqual(typeof t, "object");
+            assert.strictEqual(t.valueOf(), true);
+            assert.strictEqual(typeof f, "object");
+            assert.strictEqual(f.valueOf(), false);
+        });
+
+        it("should give a wrapper object for numbers", function () {
+            var five = abstractOps.ToObject(5);
+            var infinity = abstractOps.ToObject(Infinity);
+
+            assert.strictEqual(typeof five, "object");
+            assert.strictEqual(five.valueOf(), 5);
+            assert.strictEqual(typeof infinity, "object");
+            assert.strictEqual(infinity.valueOf(), Infinity);
+        });
+
+        it("should give a wrapper object for strings", function () {
+            var five = abstractOps.ToObject("five");
+            var infinity = abstractOps.ToObject("infinity");
+
+            assert.strictEqual(typeof five, "object");
+            assert.strictEqual(five.valueOf(), "five");
+            assert.strictEqual(typeof infinity, "object");
+            assert.strictEqual(infinity.valueOf(), "infinity");
+        });
+
+        it("should give a wrapper object for symbols", function () {
+            var symbol = Symbol();
+            var wrappedSymbol = abstractOps.ToObject(symbol);
+
+            assert.strictEqual(typeof wrappedSymbol, "object");
+            assert.strictEqual(wrappedSymbol.valueOf(), symbol);
+        });
+
+        it("should return the object for objects", function () {
+            var o = {};
+            var wrappedO = abstractOps.ToObject(o);
+
+            var f = {};
+            var wrappedF = abstractOps.ToObject(f);
+
+            assert.strictEqual(wrappedO, o);
+            assert.strictEqual(wrappedF, f);
+        });
+    });
+
+    describe("GetMethod", function () {
+        it("should throw an assertion error when used on a non-object", function () {
+            assert.throws(function () {
+                abstractOps.GetMethod(5, "valueOf");
+            }, /assertion failure/);
+        });
+
+        it("should throw an assertion error when used with a non-property key", function () {
+            assert.throws(function () {
+                abstractOps.GetMethod({}, 5);
+            }, /assertion failure/);
+        });
+
+        it("should return undefined methods as `undefined`", function () {
+            var symbol = Symbol();
+
+            assert.strictEqual(abstractOps.GetMethod({}, "foo"), undefined);
+            assert.strictEqual(abstractOps.GetMethod({}, symbol), undefined);
+        });
+
+        it("should return callable methods", function () {
+            var symbol = Symbol();
+
+            var method1 = function () { };
+            var method2 = function () { };
+            var o = { foo: method1 };
+            o[symbol] = method2;
+
+            assert.strictEqual(abstractOps.GetMethod(o, "foo"), method1);
+            assert.strictEqual(abstractOps.GetMethod(o, symbol), method2);
+        });
+
+        it("should throw a TypeError for non-callable methods", function () {
+            var o = { foo: "bar" };
+
+            assert.throws(function () {
+                abstractOps.GetMethod(o, "foo");
+            }, TypeError);
+        });
+    });
+
+    describe("Invoke", function () {
+        it("should throw an assertion error when used with a non-property key", function () {
+            assert.throws(function () {
+                abstractOps.Invoke({}, 5);
+            }, /assertion failure/);
+        });
+
+        it("should throw a TypeError when used with an undefined method", function () {
+            assert.throws(function () {
+                abstractOps.Invoke({}, "method");
+            }, TypeError);
+        });
+
+        it("calls the method with the given arguments and correct `this`", function () {
+            var recordedThis;
+            var recordedArgs;
+            var o = {
+                method: function () {
+                    recordedThis = this;
+                    recordedArgs = arguments;
+                }
+            };
+
+            abstractOps.Invoke(o, "method", [1, 2, 3]);
+
+            assert.strictEqual(recordedThis, o);
+            assert.deepEqual(Array.prototype.slice.call(recordedArgs), [1, 2, 3]);
+        });
+
+        it("calls the method with no arguments if arguments are omitted", function () {
+            var recordedThis;
+            var recordedArgs;
+            var o = {
+                method: function () {
+                    recordedThis = this;
+                    recordedArgs = arguments;
+                }
+            };
+
+            abstractOps.Invoke(o, "method");
+
+            assert.strictEqual(recordedThis, o);
+            assert.deepEqual(Array.prototype.slice.call(recordedArgs), []);
+        });
+    });
 });
