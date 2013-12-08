@@ -56,3 +56,22 @@ exports.Get = function (O, P) {
 
     return O[P];
 };
+
+// http://people.mozilla.org/~jorendorff/es6-draft.html#sec-samevalue
+exports.SameValue = function (x, y) {
+    return Object.is(x, y);
+};
+
+// http://people.mozilla.org/~jorendorff/es6-draft.html#sec-arraycreate
+// plus https://bugs.ecmascript.org/show_bug.cgi?id=2346
+exports.ArrayCreate = function (length) {
+    assert(length === undefined || exports.Type(length) === "Number" && length >= 0);
+    if (length === undefined) {
+        throw new TypeError("We don't support the `length` of `undefined` case.");
+    }
+    if (arguments.length > 1) {
+        throw new TypeError("We don't support the optional `proto` argument.");
+    }
+
+    return new Array(length);
+};

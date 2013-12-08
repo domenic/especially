@@ -15,6 +15,8 @@ Especially has no main module (*gasp*). Instead, you'll require one of the top-l
 - [Type](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-ecmascript-data-types-and-values): returns the types as strings, e.g. `"Object"`.
 - [IsPropertyKey](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-ispropertykey)
 - [Get](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-get-o-p)
+- [SameValue](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-samevalue)
+- [ArrayCreate](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-arraycreate)
 
 ### require("especially/meta")
 
