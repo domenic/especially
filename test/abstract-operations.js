@@ -459,5 +459,16 @@ describe("Abstract operations", function () {
             assert(o.hasOwnProperty("initial"));
             assert.strictEqual(o.initial, "stuff");
         });
+
+        it("should work with `this`-dependent @@creates", function () {
+            function F() {}
+            F[atAtCreate] = function () {
+                return { shouldBeF: this };
+            };
+
+            var o = abstractOps.OrdinaryConstruct(F, []);
+
+            assert.strictEqual(o.shouldBeF, F);
+        });
     });
 });

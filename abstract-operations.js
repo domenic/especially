@@ -124,7 +124,7 @@ exports.OrdinaryConstruct = function (F, argumentsList) {
         if (exports.IsCallable(creator) === false) {
             throw new TypeError("Non-callable @@create value");
         }
-        obj = creator();
+        obj = creator.apply(F, []);
     } else {
         obj = exports.OrdinaryCreateFromConstructor(F, "%ObjectPrototype%");
     }
