@@ -389,6 +389,7 @@ describe("Abstract operations", function () {
     describe("CreateFromConstructor", function () {
         it("should return undefined for functions without @@create values", function () {
             function F() { }
+            F[atAtCreate] = undefined;
 
             assert.strictEqual(abstractOps.CreateFromConstructor(F), undefined);
         });
