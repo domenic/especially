@@ -6,6 +6,12 @@ var make_slots = require("./meta").make_slots;
 var atAtCreate = require("./well-known-symbols")["@@create"];
 var atAtIterator = require("./well-known-symbols")["@@iterator"];
 
+// Necessary for CreateFromConstructor to work properly.
+// http://people.mozilla.org/~jorendorff/es6-draft.html#sec-function.prototype-@@create
+Function.prototype[atAtCreate] = function () {
+    return exports.OrdinaryCreateFromConstructor(this, "%ObjectPrototype%");
+};
+
 // http://people.mozilla.org/~jorendorff/es6-draft.html#sec-iscallable
 exports.IsCallable = function (argument) {
     return typeof argument === "function";
