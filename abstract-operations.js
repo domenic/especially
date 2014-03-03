@@ -185,6 +185,11 @@ exports.ToBoolean = function (argument) {
     return Boolean(argument);
 };
 
+// http://people.mozilla.org/~jorendorff/es6-draft.html#sec-tostring
+exports.ToString = function (argument) {
+    return String(argument);
+};
+
 // http://people.mozilla.org/~jorendorff/es6-draft.html#sec-getmethod
 exports.GetMethod = function (O, P) {
     assert(exports.Type(O) === "Object");

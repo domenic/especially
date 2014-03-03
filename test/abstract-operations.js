@@ -676,6 +676,45 @@ describe("Abstract operations", function () {
         });
     });
 
+    describe("ToString", function () {
+        it("should return `\"undefined\"` for `undefined`", function () {
+            assert.strictEqual(abstractOps.ToString(undefined), "undefined");
+        });
+
+        it("should return `\"null\"` for `null`", function () {
+            assert.strictEqual(abstractOps.ToString(null), "null");
+        });
+
+        it("should return `\"true\"` for `true`", function () {
+            assert.strictEqual(abstractOps.ToString(true), "true");
+        });
+
+        it("should return `\"false\"` for `false`", function () {
+            assert.strictEqual(abstractOps.ToString(false), "false");
+        });
+
+        it("should return the correct number formatting for numbers", function () {
+            assert.strictEqual(abstractOps.ToString(NaN), "NaN");
+            assert.strictEqual(abstractOps.ToString(+0), "0");
+            assert.strictEqual(abstractOps.ToString(-0), "0");
+            assert.strictEqual(abstractOps.ToString(+Infinity), "Infinity");
+            assert.strictEqual(abstractOps.ToString(-Infinity), "-Infinity");
+            assert.strictEqual(abstractOps.ToString(10), "10");
+            assert.strictEqual(abstractOps.ToString(-10), "-10");
+        });
+
+        it("should return the input for a string", function () {
+            assert.strictEqual(abstractOps.ToString(""), "");
+            assert.strictEqual(abstractOps.ToString("whee"), "whee");
+        });
+
+        it("should throw a TypeError for a symbol", function () {
+            assert.throws(function () {
+                abstractOps.ToString(new Symbol());
+            }, TypeError);
+        });
+    });
+
     describe("GetMethod", function () {
         it("should throw an assertion error when used on a non-object", function () {
             assert.throws(function () {
