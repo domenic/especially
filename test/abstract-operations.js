@@ -325,6 +325,43 @@ describe("Abstract operations", function () {
         });
     });
 
+    describe("CreateFromConstructor", function () {
+        it("should return undefined for functions without @@create values", function () {
+            function F() { }
+
+            assert.strictEqual(abstractOps.CreateFromConstructor(F), undefined);
+        });
+
+        it("should throw a TypeError for non-callable @@create values", function () {
+            function F() { }
+            F[atAtCreate] = {};
+
+            assert.throws(function () {
+                abstractOps.CreateFromConstructor(F, []);
+            }, TypeError);
+        });
+
+        it("should throw a TypeError for @@creates that return non-objects", function () {
+            function F() { }
+            F[atAtCreate] = function () { return 5; };
+
+            assert.throws(function () {
+                abstractOps.CreateFromConstructor(F, []);
+            }, TypeError);
+        });
+
+        it("should work with `this`-dependent @@creates", function () {
+            function F() {}
+            F[atAtCreate] = function () {
+                return { shouldBeF: this };
+            };
+
+            var o = abstractOps.CreateFromConstructor(F, []);
+
+            assert.strictEqual(o.shouldBeF, F);
+        });
+    });
+
     describe("OrdinaryCreateFromConstructor", function () {
         it("throws an assertion error when a non-string value is passed for intrinsicDefaultProto", function () {
             assert.throws(function () {

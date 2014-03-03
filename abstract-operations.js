@@ -109,6 +109,26 @@ exports.GetPrototypeFromConstructor = function (constructor, intrinsicDefaultPro
     return proto;
 };
 
+// http://people.mozilla.org/~jorendorff/es6-draft.html#sec-createfromconstructor
+exports.CreateFromConstructor = function (F) {
+    let creator = exports.Get(F, atAtCreate);
+    if (creator === undefined) {
+        return undefined;
+    }
+
+    if (exports.IsCallable(creator) === false) {
+        throw new TypeError("Non-callable @@create value");
+    }
+
+    let obj = creator.apply(F, []);
+
+    if (exports.Type(obj) !== "Object") {
+        throw new TypeError("Non-object created");
+    }
+
+    return obj;
+};
+
 // http://people.mozilla.org/~jorendorff/es6-draft.html#sec-ordinarycreatefromconstructor
 exports.OrdinaryCreateFromConstructor = function (constructor, intrinsicDefaultProto, internalDataList) {
     assert(exports.Type(intrinsicDefaultProto) === "String" && intrinsicDefaultProto in intrinsics);
