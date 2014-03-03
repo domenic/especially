@@ -849,4 +849,51 @@ describe("Abstract operations", function () {
             assert.deepEqual(abstractOps.IteratorStep(iterator, "whee"), false);
         });
     });
+
+    describe("EnqueueTask", function () {
+        it("should throw an assertion error for non-string queue names", function () {
+            assert.throws(function () {
+                abstractOps.EnqueueTask(5, function () {}, []);
+            }, /assertion failure/);
+
+            assert.throws(function () {
+                abstractOps.EnqueueTask(null, function () {}, []);
+            }, /assertion failure/);
+        });
+
+        it("should throw an assertion error for non-function tasks", function () {
+            assert.throws(function () {
+                abstractOps.EnqueueTask("PromiseTasks", {}, []);
+            }, /assertion failure/);
+        });
+
+        it("should throw an assertion error for non-array arguments", function () {
+            assert.throws(function () {
+                abstractOps.EnqueueTask("PromiseTasks", function () { }, {});
+            }, /assertion failure/);
+
+            assert.throws(function () {
+                abstractOps.EnqueueTask("PromiseTasks", function () { }, null);
+            }, /assertion failure/);
+        });
+
+        it("should throw an assertion error if the arguments do not match the task's expectations", function () {
+            assert.throws(function () {
+                abstractOps.EnqueueTask("PromiseTasks", function (a) { }, []);
+            }, /assertion failure/);
+
+            assert.throws(function () {
+                abstractOps.EnqueueTask("PromiseTasks", function () { }, [1]);
+            }, /assertion failure/);
+        });
+
+        it("should run on a new execution context", function (done) {
+            var counter = 0;
+            abstractOps.EnqueueTask("PromiseTasks", function () {
+                assert.strictEqual(counter, 1);
+                done();
+            }, []);
+            ++counter;
+        });
+    });
 });

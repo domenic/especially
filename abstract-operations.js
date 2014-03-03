@@ -262,3 +262,13 @@ exports.IteratorStep = function (iterator, value) {
 
     return result;
 };
+
+exports.EnqueueTask = function (queueName, task, args) {
+    assert(exports.Type(queueName) === "String");
+    assert(typeof task === "function");
+    assert(Array.isArray(args) && args.length === task.length);
+
+    process.nextTick(function () {
+        task.apply(undefined, args);
+    });
+};

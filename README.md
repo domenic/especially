@@ -12,6 +12,7 @@ Especially has no main module (*gasp*). Instead, you'll require one of the top-l
 
 - [ArrayCreate](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-arraycreate)
 - [CreateFromConstructor](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-createfromconstructor)
+- [EnqueueTask](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-enqueuetask)
 - [Get](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-get-o-p)
 - [GetIterator](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-getiterator): uses the `@@iterator` symbol.
 - [GetMethod](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-getmethod)
