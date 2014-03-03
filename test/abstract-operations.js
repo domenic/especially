@@ -151,6 +151,67 @@ describe("Abstract operations", function () {
         });
     });
 
+    describe("CreateDataProperty", function () {
+        it("throws an assertion error when O is not an object", function () {
+            assert.throws(function () {
+                abstractOps.CreateDataProperty(5, "foo", 1);
+            }, /assertion failure/);
+        });
+
+        it("throws an assertion error when P is not a property key", function () {
+            assert.throws(function () {
+                abstractOps.CreateDataProperty({}, 0, 1);
+            }, /assertion failure/);
+
+            assert.throws(function () {
+                abstractOps.CreateDataProperty({}, true, 1);
+            }, /assertion failure/);
+
+            assert.throws(function () {
+                abstractOps.CreateDataProperty({}, undefined, 1);
+            }, /assertion failure/);
+
+            assert.throws(function () {
+                abstractOps.CreateDataProperty({}, null, 1);
+            }, /assertion failure/);
+
+            assert.throws(function () {
+                abstractOps.CreateDataProperty({}, {}, 1);
+            }, /assertion failure/);
+
+            assert.throws(function () {
+                abstractOps.CreateDataProperty({}, function () {}, 1);
+            }, /assertion failure/);
+        });
+
+        it("creates the given data property with the default attributes, when P is a string", function () {
+            var o = {};
+
+            abstractOps.CreateDataProperty(o, "key", "value");
+
+            assert.deepEqual(Object.getOwnPropertyDescriptor(o, "key"), {
+                value: "value",
+                writable: true,
+                enumerable: true,
+                configurable: true
+            });
+        });
+
+        it("creates the given data property with the default attributes, when P is a string", function () {
+            var o = {};
+            var symbol = Symbol();
+
+            abstractOps.CreateDataProperty(o, symbol, "value");
+
+            assert.deepEqual(Object.getOwnPropertyDescriptor(o, symbol), {
+                value: "value",
+                writable: true,
+                enumerable: true,
+                configurable: true
+            });
+        });
+    });
+
     describe("SameValue", function () {
         it("returns false for different types", function () {
             assert.strictEqual(abstractOps.SameValue(null, undefined), false);

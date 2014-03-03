@@ -61,6 +61,14 @@ exports.Get = function (O, P) {
     return O[P];
 };
 
+exports.CreateDataProperty = function (O, P, V) {
+    assert(exports.Type(O) === "Object");
+    assert(exports.IsPropertyKey(P) === true);
+
+    let newDesc = { value: V, writable: true, enumerable: true, configurable: true };
+    return Object.defineProperty(O, P, newDesc);
+};
+
 // http://people.mozilla.org/~jorendorff/es6-draft.html#sec-samevalue
 exports.SameValue = function (x, y) {
     return Object.is(x, y);

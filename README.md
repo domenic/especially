@@ -11,6 +11,7 @@ Especially has no main module (*gasp*). Instead, you'll require one of the top-l
 ### require("especially/abstract-operations")
 
 - [ArrayCreate](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-arraycreate)
+- [CreateDataProperty](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-createdataproperty)
 - [CreateFromConstructor](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-createfromconstructor)
 - [EnqueueTask](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-enqueuetask)
 - [Get](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-get-o-p)
