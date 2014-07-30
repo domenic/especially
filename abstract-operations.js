@@ -5,6 +5,10 @@ var intrinsics = require("./intrinsics");
 var make_slots = require("./meta").make_slots;
 var atAtCreate = require("./well-known-symbols")["@@create"];
 var atAtIterator = require("./well-known-symbols")["@@iterator"];
+var sign = require("./math").sign;
+var floor = require("./math").floor;
+var abs = require("./math").abs;
+var min = require("./math").min;
 
 // Necessary for CreateFromConstructor to work properly.
 // http://people.mozilla.org/~jorendorff/es6-draft.html#sec-function.prototype-@@create
@@ -320,37 +324,3 @@ exports.EnqueueTask = function (queueName, task, args) {
         task.apply(undefined, args);
     });
 };
-
-function sign(x) {
-    assert(x !== 0);
-    assert(x !== Infinity);
-    assert(x !== -Infinity);
-    assert(!isNaN(x));
-    return x < 0 ? -1 : +1;
-}
-
-function floor(x) {
-    assert(x !== Infinity);
-    assert(x !== -Infinity);
-    assert(!isNaN(x));
-    return Math.floor(x);
-}
-
-function abs(x) {
-    assert(x !== Infinity);
-    assert(x !== -Infinity);
-    assert(!isNaN(x));
-    return Math.abs(x);
-}
-
-function min(x, y) {
-    assert(x !== Infinity);
-    assert(x !== -Infinity);
-    assert(!isNaN(x));
-
-    assert(y !== Infinity);
-    assert(y !== -Infinity);
-    assert(!isNaN(y));
-
-    return Math.min(x, y);
-}

@@ -38,6 +38,15 @@ Especially has no main module (*gasp*). Instead, you'll require one of the top-l
 - [ToString](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-tostring)
 - [Type](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-ecmascript-data-types-and-values): returns the types as strings, e.g. `"Object"`.
 
+### require("especially/math")
+
+A variety of math operations from the [Algorithm Conventions](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-algorithm-conventions) section of the spec:
+
+- abs(_x_)
+- sign(_x_)
+- min(<var>x</var><sub>1</sub>, <var>x</var><sub>2</sub>, …, <var>x</var><sub>n</sub>)
+- floor(_x_)
+
 ### require("especially/meta")
 
 - [`assert`](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-algorithm-conventions): ensures you pass it a boolean, then throws if it's not true
