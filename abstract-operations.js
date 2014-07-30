@@ -71,6 +71,7 @@ exports.Get = function (O, P) {
     return O[P];
 };
 
+/// http://people.mozilla.org/~jorendorff/es6-draft.html#sec-createdataproperty
 exports.CreateDataProperty = function (O, P, V) {
     assert(exports.Type(O) === "Object");
     assert(exports.IsPropertyKey(P) === true);
@@ -79,9 +80,21 @@ exports.CreateDataProperty = function (O, P, V) {
     return Object.defineProperty(O, P, newDesc);
 };
 
+// http://people.mozilla.org/~jorendorff/es6-draft.html#sec-hasproperty
+exports.HasProperty = function (O, P) {
+    assert(exports.Type(O) === "Object");
+    assert(exports.IsPropertyKey(P) === true);
+    return P in O;
+};
+
 // http://people.mozilla.org/~jorendorff/es6-draft.html#sec-samevalue
 exports.SameValue = function (x, y) {
     return Object.is(x, y);
+};
+
+// http://people.mozilla.org/~jorendorff/es6-draft.html#sec-samevaluezero
+exports.SameValueZero = function (x, y) {
+    return (x === 0 && y === 0) || Object.is(x, y);
 };
 
 // http://people.mozilla.org/~jorendorff/es6-draft.html#sec-arraycreate

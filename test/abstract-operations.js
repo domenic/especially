@@ -151,6 +151,59 @@ describe("Abstract operations", function () {
         });
     });
 
+    describe("HasProperty", function () {
+        it("throws an assertion error when O is not an object", function () {
+            assert.throws(function () {
+                abstractOps.HasProperty(5, "foo");
+            }, /assertion failure/);
+        });
+
+        it("throws an assertion error when P is not a property key", function () {
+            assert.throws(function () {
+                abstractOps.HasProperty({}, 0);
+            }, /assertion failure/);
+
+            assert.throws(function () {
+                abstractOps.HasProperty({}, true);
+            }, /assertion failure/);
+
+            assert.throws(function () {
+                abstractOps.HasProperty({}, undefined);
+            }, /assertion failure/);
+
+            assert.throws(function () {
+                abstractOps.HasProperty({}, null);
+            }, /assertion failure/);
+
+            assert.throws(function () {
+                abstractOps.HasProperty({}, {});
+            }, /assertion failure/);
+
+            assert.throws(function () {
+                abstractOps.HasProperty({}, function () {});
+            }, /assertion failure/);
+        });
+
+        it("returns the correct value when P is a string", function () {
+            var o = { key1: "value1", key2: "value2", "long key": "long value" };
+
+            assert.strictEqual(abstractOps.HasProperty(o, "key1"), true);
+            assert.strictEqual(abstractOps.HasProperty(o, "key2"), true);
+            assert.strictEqual(abstractOps.HasProperty(o, "long key"), true);
+            assert.strictEqual(abstractOps.HasProperty(o, "not there"), false);
+        });
+
+        it("returns the correct value when P is a symbol", function () {
+            var o = {};
+            var symbol = Symbol();
+            var notThere = Symbol();
+            o[symbol] = "value!";
+
+            assert.strictEqual(abstractOps.HasProperty(o, symbol), true);
+            assert.strictEqual(abstractOps.HasProperty(o, notThere), false);
+        });
+    });
+
     describe("CreateDataProperty", function () {
         it("throws an assertion error when O is not an object", function () {
             assert.throws(function () {
@@ -277,6 +330,74 @@ describe("Abstract operations", function () {
             assert.strictEqual(abstractOps.SameValue(o1, f1), false);
             assert.strictEqual(abstractOps.SameValue(f1, f2), false);
             assert.strictEqual(abstractOps.SameValue(f2, f1), false);
+        });
+    });
+
+    describe("SameValueZero", function () {
+        it("returns false for different types", function () {
+            assert.strictEqual(abstractOps.SameValueZero(null, undefined), false);
+            assert.strictEqual(abstractOps.SameValueZero(5, "5"), false);
+            assert.strictEqual(abstractOps.SameValueZero(false, null), false);
+        });
+
+        it("returns true for two `undefined`s", function () {
+            assert.strictEqual(abstractOps.SameValueZero(undefined, undefined), true);
+        });
+
+        it("returns true for two `null`s", function () {
+            assert.strictEqual(abstractOps.SameValueZero(null, null), true);
+        });
+
+        it("returns correct results when both arguments are numbers", function () {
+            assert.strictEqual(abstractOps.SameValueZero(NaN, NaN), true);
+            assert.strictEqual(abstractOps.SameValueZero(+0, -0), true);
+            assert.strictEqual(abstractOps.SameValueZero(-0, +0), true);
+            assert.strictEqual(abstractOps.SameValueZero(5, 5), true);
+            assert.strictEqual(abstractOps.SameValueZero(Infinity, Infinity), true);
+            assert.strictEqual(abstractOps.SameValueZero(-Infinity, -Infinity), true);
+            assert.strictEqual(abstractOps.SameValueZero(-Infinity, +Infinity), false);
+            assert.strictEqual(abstractOps.SameValueZero(+Infinity, -Infinity), false);
+            assert.strictEqual(abstractOps.SameValueZero(5, 10), false);
+        });
+
+        it("returns correct results when both arguments are strings", function () {
+            assert.strictEqual(abstractOps.SameValueZero("", ""), true);
+            assert.strictEqual(abstractOps.SameValueZero("\u0041", "A"), true);
+            assert.strictEqual(abstractOps.SameValueZero("foo", "bar"), false);
+        });
+
+        it("returns correct results when both arguments are booleans", function () {
+            assert.strictEqual(abstractOps.SameValueZero(true, true), true);
+            assert.strictEqual(abstractOps.SameValueZero(false, false), true);
+            assert.strictEqual(abstractOps.SameValueZero(true, false), false);
+            assert.strictEqual(abstractOps.SameValueZero(false, true), false);
+        });
+
+        it("returns correct results when both arguments are symbols", function () {
+            var symbol1 = Symbol();
+            var symbol2 = Symbol();
+
+            assert.strictEqual(abstractOps.SameValueZero(symbol1, symbol1), true);
+            assert.strictEqual(abstractOps.SameValueZero(symbol2, symbol2), true);
+            assert.strictEqual(abstractOps.SameValueZero(symbol1, symbol2), false);
+            assert.strictEqual(abstractOps.SameValueZero(symbol2, symbol1), false);
+        });
+
+        it("returns correct results when both arguments are objects", function () {
+            var o1 = { "object": true };
+            var o2 = { "object": true };
+            var f1 = function () { };
+            var f2 = function () { };
+
+            assert.strictEqual(abstractOps.SameValueZero(o1, o1), true);
+            assert.strictEqual(abstractOps.SameValueZero(o2, o2), true);
+            assert.strictEqual(abstractOps.SameValueZero(f1, f1), true);
+            assert.strictEqual(abstractOps.SameValueZero(f2, f2), true);
+            assert.strictEqual(abstractOps.SameValueZero(o1, o2), false);
+            assert.strictEqual(abstractOps.SameValueZero(o2, o1), false);
+            assert.strictEqual(abstractOps.SameValueZero(o1, f1), false);
+            assert.strictEqual(abstractOps.SameValueZero(f1, f2), false);
+            assert.strictEqual(abstractOps.SameValueZero(f2, f1), false);
         });
     });
 

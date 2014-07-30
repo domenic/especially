@@ -18,6 +18,7 @@ Especially has no main module (*gasp*). Instead, you'll require one of the top-l
 - [GetIterator](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-getiterator): uses the `@@iterator` symbol.
 - [GetMethod](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-getmethod)
 - [GetPrototypeFromConstructor](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-getprototypefromconstructor)
+- [HasProperty](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-hasproperty)
 - [Invoke](https://github.com/domenic/promises-unwrapping/issues/74#issuecomment-28428416)
 - [IsCallable](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-iscallable)
 - [IsConstructor](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-isconstructor): not spec compliant, but the best we can do
@@ -30,6 +31,7 @@ Especially has no main module (*gasp*). Instead, you'll require one of the top-l
 - [OrdinaryConstruct](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-ordinaryconstruct): use this to get ES6 `new` semantics, with `@@create` support.
 - [OrdinaryCreateFromConstructor](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-ordinarycreatefromconstructor)
 - [SameValue](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-samevalue)
+- [SameValueZero](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-samevaluezero)
 - [ToBoolean](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-toboolean)
 - [ToInteger](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-tointeger)
 - [ToLength](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-tolength)
