@@ -22,7 +22,7 @@ exports.abs = function (x) {
     assert(x !== -Infinity);
     assert(!isNaN(x));
     return Math.abs(x);
-}
+};
 
 exports.min = function () {
     for (var i = 0; i < arguments.length; ++i) {
