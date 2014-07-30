@@ -31,6 +31,9 @@ Especially has no main module (*gasp*). Instead, you'll require one of the top-l
 - [OrdinaryCreateFromConstructor](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-ordinarycreatefromconstructor)
 - [SameValue](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-samevalue)
 - [ToBoolean](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-toboolean)
+- [ToInteger](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-tointeger)
+- [ToLength](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-tolength)
+- [ToNumber](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-tonumber)
 - [ToObject](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-toobject)
 - [ToString](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-tostring)
 - [Type](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-ecmascript-data-types-and-values): returns the types as strings, e.g. `"Object"`.

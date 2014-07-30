@@ -677,6 +677,124 @@ describe("Abstract operations", function () {
         });
     });
 
+    describe("ToNumber", function () {
+        it("should return `NaN` for `undefined`", function () {
+            var value = abstractOps.ToNumber(undefined);
+            assert.ok(typeof value === "number");
+            assert.ok(isNaN(value));
+        });
+
+        it("should return `+0` for `null`", function () {
+            var value = abstractOps.ToNumber(null);
+            assert.strictEqual(value, +0);
+            assert.strictEqual(+Infinity/value, +Infinity);
+        });
+
+        it("should return `1` for `true`", function () {
+            assert.strictEqual(abstractOps.ToNumber(true), 1);
+        });
+
+        it("should return `0` for `false`", function () {
+            var value = abstractOps.ToNumber(false);
+            assert.strictEqual(value, +0);
+            assert.strictEqual(+Infinity/value, +Infinity);
+        });
+
+        it("should be the identity for numbers", function () {
+            assert.strictEqual(abstractOps.ToNumber(-1), -1);
+            assert.strictEqual(abstractOps.ToNumber(+1), +1);
+            assert.strictEqual(abstractOps.ToNumber(-Infinity), -Infinity);
+            assert.strictEqual(abstractOps.ToNumber(+Infinity), +Infinity);
+
+            var plusZero = abstractOps.ToNumber(+0);
+            assert.strictEqual(plusZero, +0);
+            assert.strictEqual(+Infinity/plusZero, +Infinity);
+
+            var minusZero = abstractOps.ToNumber(-0);
+            assert.strictEqual(minusZero, -0);
+            assert.strictEqual(+Infinity/minusZero, -Infinity);
+        });
+
+        it("should give back the correct number from strings", function () {
+            var asdfResult = abstractOps.ToNumber("asdf");
+            assert.ok(typeof asdfResult === "number");
+            assert.ok(isNaN(asdfResult));
+
+            assert.strictEqual(abstractOps.ToNumber("123"), 123);
+            assert.strictEqual(abstractOps.ToNumber("-123"), -123);
+            assert.strictEqual(abstractOps.ToNumber("1e5"), 1e5);
+
+            // I got lazy, sorry
+        });
+
+        it("should throw a TypeError for a symbol", function () {
+            assert.throws(function () {
+                abstractOps.ToNumber(new Symbol());
+            }, TypeError);
+        });
+    });
+
+    describe("ToInteger", function () {
+        it("should return `+0` for `NaN`", function () {
+            var result = abstractOps.ToInteger(NaN);
+            assert.strictEqual(result, +0);
+            assert.strictEqual(+Infinity/result, +Infinity);
+        });
+
+        it("should return the input for +0, -0, +Infinity, -Infinity", function () {
+            var plusZero = abstractOps.ToInteger(+0);
+            assert.strictEqual(plusZero, +0);
+            assert.strictEqual(+Infinity/plusZero, +Infinity);
+
+            var minusZero = abstractOps.ToInteger(-0);
+            assert.strictEqual(minusZero, -0);
+            assert.strictEqual(+Infinity/minusZero, -Infinity);
+
+            assert.strictEqual(abstractOps.ToInteger(+Infinity), +Infinity);
+            assert.strictEqual(abstractOps.ToInteger(-Infinity), -Infinity);
+        });
+
+        it("should give back the integer version for other numbers", function () {
+            assert.strictEqual(abstractOps.ToInteger(1), 1);
+            assert.strictEqual(abstractOps.ToInteger(1.5), 1);
+            assert.strictEqual(abstractOps.ToInteger(1.999), 1);
+            assert.strictEqual(abstractOps.ToInteger(-1.2), -1);
+            assert.strictEqual(abstractOps.ToInteger(-1.999), -1);
+        });
+
+        it("should work correctly on non-numbers", function () {
+            assert.strictEqual(abstractOps.ToInteger("-1.999"), -1);
+            assert.strictEqual(abstractOps.ToInteger("asdf"), 0);
+            assert.strictEqual(abstractOps.ToInteger({}), 0);
+        });
+    });
+
+    describe("ToLength", function () {
+        it("should return +0 for things below zero", function () {
+            var result1 = abstractOps.ToLength(-1);
+            assert.strictEqual(result1, +0);
+            assert.strictEqual(+Infinity/result1, +Infinity);
+
+            var result2 = abstractOps.ToLength(-Infinity);
+            assert.strictEqual(result2, +0);
+            assert.strictEqual(+Infinity/result2, +Infinity);
+
+            var result3 = abstractOps.ToLength(-0);
+            assert.strictEqual(result3, +0);
+            assert.strictEqual(+Infinity/result3, +Infinity);
+        });
+
+        it("should return 2^53 - 1 for numbers above 2^53 - 1", function () {
+            assert.strictEqual(abstractOps.ToLength(Math.pow(2, 53)), Math.pow(2, 53) - 1);
+            assert.strictEqual(abstractOps.ToLength(Math.pow(2, 55)), Math.pow(2, 53) - 1);
+        });
+
+        it("should return the input for numbers between 0 and 2^53 - 1", function () {
+            assert.strictEqual(abstractOps.ToLength(Math.pow(2, 52)), Math.pow(2, 52));
+            assert.strictEqual(abstractOps.ToLength(Math.pow(2, 53) - 3), Math.pow(2, 53) - 3);
+        });
+    });
+
     describe("ToString", function () {
         it("should return `\"undefined\"` for `undefined`", function () {
             assert.strictEqual(abstractOps.ToString(undefined), "undefined");

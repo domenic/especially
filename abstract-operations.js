@@ -196,6 +196,35 @@ exports.ToString = function (argument) {
     return String(argument);
 };
 
+// http://people.mozilla.org/~jorendorff/es6-draft.html#sec-tonumber
+exports.ToNumber = function (argument) {
+    return Number(argument);
+};
+
+// http://people.mozilla.org/~jorendorff/es6-draft.html#sec-tointeger
+exports.ToInteger = function (argument) {
+    let number = exports.ToNumber(argument);
+    if (Number.isNaN(number)) {
+        return +0;
+    }
+
+    if (number === 0 || number === -Infinity || number === +Infinity) {
+        return number;
+    }
+
+    return sign(number) * floor(abs(number));
+};
+
+// http://people.mozilla.org/~jorendorff/es6-draft.html#sec-tolength
+exports.ToLength = function (argument) {
+    let len = exports.ToInteger(argument);
+    if (len <= +0) {
+        return +0;
+    }
+
+    return min(len, Math.pow(2, 53) - 1);
+};
+
 // http://people.mozilla.org/~jorendorff/es6-draft.html#sec-getmethod
 exports.GetMethod = function (O, P) {
     assert(exports.Type(O) === "Object");
@@ -291,3 +320,37 @@ exports.EnqueueTask = function (queueName, task, args) {
         task.apply(undefined, args);
     });
 };
+
+function sign(x) {
+    assert(x !== 0);
+    assert(x !== Infinity);
+    assert(x !== -Infinity);
+    assert(!isNaN(x));
+    return x < 0 ? -1 : +1;
+}
+
+function floor(x) {
+    assert(x !== Infinity);
+    assert(x !== -Infinity);
+    assert(!isNaN(x));
+    return Math.floor(x);
+}
+
+function abs(x) {
+    assert(x !== Infinity);
+    assert(x !== -Infinity);
+    assert(!isNaN(x));
+    return Math.abs(x);
+}
+
+function min(x, y) {
+    assert(x !== Infinity);
+    assert(x !== -Infinity);
+    assert(!isNaN(x));
+
+    assert(y !== Infinity);
+    assert(y !== -Infinity);
+    assert(!isNaN(y));
+
+    return Math.min(x, y);
+}
