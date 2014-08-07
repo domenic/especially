@@ -13,12 +13,18 @@ Especially has no main module (*gasp*). Instead, you'll require one of the top-l
 - [ArrayCreate](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-arraycreate)
 - [CreateDataProperty](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-createdataproperty)
 - [CreateFromConstructor](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-createfromconstructor)
+- [DateFromTime](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-date-number)
+- [Day](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-day-number-and-time-within-day)
+- [DayFromYear](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-year-number)
+- [DaysInYear](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-year-number)
+- [DayWithinYear](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-month-number)
 - [EnqueueTask](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-enqueuetask)
 - [Get](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-get-o-p)
 - [GetIterator](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-getiterator): uses the `@@iterator` symbol.
 - [GetMethod](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-getmethod)
 - [GetPrototypeFromConstructor](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-getprototypefromconstructor)
 - [HasProperty](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-hasproperty)
+- [InLeapYear](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-year-number)
 - [Invoke](https://github.com/domenic/promises-unwrapping/issues/74#issuecomment-28428416)
 - [IsCallable](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-iscallable)
 - [IsConstructor](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-isconstructor): not spec compliant, but the best we can do
@@ -27,11 +33,14 @@ Especially has no main module (*gasp*). Instead, you'll require one of the top-l
 - [IteratorNext](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-iteratornext)
 - [IteratorStep](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-iteratorstep)
 - [IteratorValue](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-iteratorvalue)
+- [MonthFromTime](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-month-number)
 - [ObjectCreate](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-objectcreate)
 - [OrdinaryConstruct](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-ordinaryconstruct): use this to get ES6 `new` semantics, with `@@create` support.
 - [OrdinaryCreateFromConstructor](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-ordinarycreatefromconstructor)
 - [SameValue](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-samevalue)
 - [SameValueZero](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-samevaluezero)
+- [TimeFromYear](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-year-number)
+- [TimeWithinDay](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-day-number-and-time-within-day)
 - [ToBoolean](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-toboolean)
 - [ToInteger](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-tointeger)
 - [ToLength](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-tolength)
@@ -39,6 +48,7 @@ Especially has no main module (*gasp*). Instead, you'll require one of the top-l
 - [ToObject](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-toobject)
 - [ToString](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-tostring)
 - [Type](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-ecmascript-data-types-and-values): returns the types as strings, e.g. `"Object"`.
+- [YearFromTime](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-year-number)
 
 ### require("especially/math")
 

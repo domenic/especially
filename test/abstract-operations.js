@@ -955,6 +955,111 @@ describe("Abstract operations", function () {
         });
     });
 
+    describe("TimeFromYear", function () {
+        it("should return the time value of the start of a year", function () {
+            assert.strictEqual(abstractOps.TimeFromYear(2013), 1356998400000);
+            assert.strictEqual(abstractOps.TimeFromYear(2014), 1388534400000);
+            assert.strictEqual(abstractOps.TimeFromYear(2015), 1420070400000);
+        });
+    });
+
+    describe("DayFromYear", function () {
+        it("should return the day number of the first day of a year", function () {
+            assert.strictEqual(abstractOps.DayFromYear(2013), 15706);
+            assert.strictEqual(abstractOps.DayFromYear(2014), 16071);
+            assert.strictEqual(abstractOps.DayFromYear(2015), 16436);
+        });
+    });
+
+    describe("YearFromTime", function () {
+        it("should return the year for a given time value", function () {
+            assert.strictEqual(abstractOps.YearFromTime(580476817000), 1988);
+            assert.strictEqual(abstractOps.YearFromTime(1407414804814), 2014);
+            assert.strictEqual(abstractOps.YearFromTime(1609455359000), 2020);
+        });
+    });
+
+    describe("DaysInYear", function () {
+        it("should return the number of days in a year", function () {
+            assert.strictEqual(abstractOps.DaysInYear(2000), 366);
+            assert.strictEqual(abstractOps.DaysInYear(2013), 365);
+            assert.strictEqual(abstractOps.DaysInYear(2014), 365);
+            assert.strictEqual(abstractOps.DaysInYear(2015), 365);
+            assert.strictEqual(abstractOps.DaysInYear(2016), 366);
+        });
+    });
+
+    describe("InLeapYear", function () {
+        it("should return `1` for a time value in a leap year and `0` otherwise", function () {
+            assert.strictEqual(abstractOps.InLeapYear(950445217000), 1);
+            assert.strictEqual(abstractOps.InLeapYear(1360758817000), 0);
+            assert.strictEqual(abstractOps.InLeapYear(1392294817000), 0);
+            assert.strictEqual(abstractOps.InLeapYear(1423830817000), 0);
+            assert.strictEqual(abstractOps.InLeapYear(1455366817000), 1);
+        });
+    });
+
+    describe("Day", function () {
+        it("should return the day number of a time value", function () {
+            assert.strictEqual(abstractOps.Day(950445217000), 11000);
+            assert.strictEqual(abstractOps.Day(1360758817000), 15749);
+            assert.strictEqual(abstractOps.Day(1392294817000), 16114);
+            assert.strictEqual(abstractOps.Day(1423830817000), 16479);
+            assert.strictEqual(abstractOps.Day(1455366817000), 16844);
+        });
+    });
+
+    describe("TimeWithinDay", function () {
+        it("should return the time value within a day for a time value", function () {
+            assert.strictEqual(abstractOps.TimeWithinDay(950445217000), 45217000);
+            assert.strictEqual(abstractOps.TimeWithinDay(1360758817000), 45217000);
+            assert.strictEqual(abstractOps.TimeWithinDay(1392294817000), 45217000);
+            assert.strictEqual(abstractOps.TimeWithinDay(1423830817000), 45217000);
+            assert.strictEqual(abstractOps.TimeWithinDay(1455397312000), 75712000);
+        });
+    });
+
+    describe("DayWithinYear", function () {
+        it("should return the day number within a year for a given time value", function () {
+            assert.strictEqual(abstractOps.DayWithinYear(946730017000), 0);
+            assert.strictEqual(abstractOps.DayWithinYear(946816417000), 1);
+            assert.strictEqual(abstractOps.DayWithinYear(946902817000), 2);
+            assert.strictEqual(abstractOps.DayWithinYear(950445217000), 43);
+            assert.strictEqual(abstractOps.DayWithinYear(978217200000), 364);
+            assert.strictEqual(abstractOps.DayWithinYear(1360758817000), 43);
+            assert.strictEqual(abstractOps.DayWithinYear(1392294817000), 43);
+            assert.strictEqual(abstractOps.DayWithinYear(1419980400000), 363);
+            assert.strictEqual(abstractOps.DayWithinYear(1423830817000), 43);
+            assert.strictEqual(abstractOps.DayWithinYear(1455397312000), 43);
+        });
+    });
+
+    describe("MonthFromTime", function () {
+        it("should return the month number for a given time value", function () {
+            assert.strictEqual(abstractOps.MonthFromTime(946730017000), 0);
+            assert.strictEqual(abstractOps.MonthFromTime(950445217000), 1);
+            assert.strictEqual(abstractOps.MonthFromTime(951914017000), 2);
+            assert.strictEqual(abstractOps.MonthFromTime(978217200000), 11);
+            assert.strictEqual(abstractOps.MonthFromTime(1360758817000), 1);
+        });
+    });
+
+    describe("DateFromTime", function () {
+        it("should return the date number for a given time value", function () {
+            assert.strictEqual(abstractOps.DateFromTime(946684800000), 1);
+            assert.strictEqual(abstractOps.DateFromTime(946730017000), 1);
+            assert.strictEqual(abstractOps.DateFromTime(946816417000), 2);
+            assert.strictEqual(abstractOps.DateFromTime(946902817000), 3);
+            assert.strictEqual(abstractOps.DateFromTime(949276800000), 31);
+            assert.strictEqual(abstractOps.DateFromTime(950445217000), 13);
+            assert.strictEqual(abstractOps.DateFromTime(978217200000), 30);
+            assert.strictEqual(abstractOps.DateFromTime(1009753200000), 30);
+            assert.strictEqual(abstractOps.DateFromTime(1360758817000), 13);
+            assert.strictEqual(abstractOps.DateFromTime(1419980400000), 30);
+            assert.strictEqual(abstractOps.DateFromTime(1423830817000), 13);
+        });
+    });
+
     describe("GetMethod", function () {
         it("should throw an assertion error when used on a non-object", function () {
             assert.throws(function () {

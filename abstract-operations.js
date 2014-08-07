@@ -242,6 +242,138 @@ exports.ToLength = function (argument) {
     return min(len, Math.pow(2, 53) - 1);
 };
 
+// https://people.mozilla.org/~jorendorff/es6-draft.html#sec-year-number
+exports.TimeFromYear = function (y) {
+    var msPerDay = 86400000;
+    return msPerDay * exports.DayFromYear(y);
+};
+
+// https://people.mozilla.org/~jorendorff/es6-draft.html#sec-year-number
+exports.DayFromYear = function (y) {
+    return 365 * (y - 1970) + floor((y - 1969) / 4) -
+        floor((y - 1901) / 100) + floor((y - 1601) / 400);
+};
+
+// https://people.mozilla.org/~jorendorff/es6-draft.html#sec-year-number
+exports.YearFromTime = function (t) {
+    return new Date(t).getUTCFullYear();
+};
+
+// https://people.mozilla.org/~jorendorff/es6-draft.html#sec-year-number
+exports.DaysInYear = function (y) {
+    if ((y % 4) !== 0) {
+        return 365;
+    }
+    if ((y % 4) === 0 && (y % 100) !== 0) {
+        return 366;
+    }
+    if ((y % 100) === 0 && (y % 400 !== 0)) {
+        return 365;
+    }
+    if ((y % 400) === 0) {
+        return 366;
+    }
+};
+
+// https://people.mozilla.org/~jorendorff/es6-draft.html#sec-year-number
+exports.InLeapYear = function (t) {
+    switch (exports.DaysInYear(exports.YearFromTime(t))) {
+        case 365:
+            return 0;
+        case 366:
+            return 1;
+    }
+};
+
+// https://people.mozilla.org/~jorendorff/es6-draft.html#sec-day-number-and-time-within-day
+exports.Day = function (t) {
+    var msPerDay = 86400000;
+    return floor(t / msPerDay);
+};
+
+// https://people.mozilla.org/~jorendorff/es6-draft.html#sec-day-number-and-time-within-day
+exports.TimeWithinDay = function (t) {
+    var msPerDay = 86400000;
+    return t % msPerDay;
+};
+
+// https://people.mozilla.org/~jorendorff/es6-draft.html#sec-month-number
+exports.DayWithinYear = function (t) {
+    return exports.Day(t) - exports.DayFromYear(exports.YearFromTime(t));
+};
+
+// https://people.mozilla.org/~jorendorff/es6-draft.html#sec-month-number
+exports.MonthFromTime = function (t) {
+    var day = exports.DayWithinYear(t);
+    var leap = exports.InLeapYear(t);
+    if (0 <= day && day < 31) {
+        return 0;
+    }
+    if (31 <= day && day < 59 + leap) {
+        return 1;
+    }
+    if (59 <= day && day < 90 + leap) {
+        return 2;
+    }
+    if (90 <= day && day < 120 + leap) {
+        return 3;
+    }
+    if (120 <= day && day < 151 + leap) {
+        return 4;
+    }
+    if (151 <= day && day < 181 + leap) {
+        return 5;
+    }
+    if (181 <= day && day < 212 + leap) {
+        return 6;
+    }
+    if (212 <= day && day < 243 + leap) {
+        return 7;
+    }
+    if (243 <= day && day < 273 + leap) {
+        return 8;
+    }
+    if (273 <= day && day < 304 + leap) {
+        return 9;
+    }
+    if (304 <= day && day < 334 + leap) {
+        return 10;
+    }
+    if (334 <= day && day < 365 + leap) {
+        return 11;
+    }
+};
+
+// https://people.mozilla.org/~jorendorff/es6-draft.html#sec-date-number
+exports.DateFromTime = function (t) {
+    switch (exports.MonthFromTime(t)) {
+        case 0:
+            return exports.DayWithinYear(t) + 1;
+        case 1:
+            return exports.DayWithinYear(t) - 30;
+        case 2:
+            return exports.DayWithinYear(t) - 58 - exports.InLeapYear(t);
+        case 3:
+            return exports.DayWithinYear(t) - 89 - exports.InLeapYear(t);
+        case 4:
+            return exports.DayWithinYear(t) - 119 - exports.InLeapYear(t);
+        case 5:
+            return exports.DayWithinYear(t) - 150 - exports.InLeapYear(t);
+        case 6:
+            return exports.DayWithinYear(t) - 180 - exports.InLeapYear(t);
+        case 7:
+            return exports.DayWithinYear(t) - 211 - exports.InLeapYear(t);
+        case 8:
+            return exports.DayWithinYear(t) - 242 - exports.InLeapYear(t);
+        case 9:
+            return exports.DayWithinYear(t) - 272 - exports.InLeapYear(t);
+        case 10:
+            return exports.DayWithinYear(t) - 303 - exports.InLeapYear(t);
+        case 11:
+            return exports.DayWithinYear(t) - 333 - exports.InLeapYear(t);
+    }
+};
+
 // http://people.mozilla.org/~jorendorff/es6-draft.html#sec-getmethod
 exports.GetMethod = function (O, P) {
     assert(exports.Type(O) === "Object");
