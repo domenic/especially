@@ -1063,10 +1063,10 @@ describe("Abstract operations", function () {
     describe("TimeClip", function () {
         it("should return a number of milliseconds for a valid time value, or `NaN` otherwise", function () {
             assert.strictEqual(abstractOps.TimeClip(946684800000), 946684800000);
-            assert.strictEqual(isNaN(abstractOps.TimeClip(-Infinity)), isNaN(NaN));
-            assert.strictEqual(isNaN(abstractOps.TimeClip(+Infinity)), isNaN(NaN));
-            assert.strictEqual(isNaN(abstractOps.TimeClip(-8.64e15 - 1)), isNaN(NaN));
-            assert.strictEqual(isNaN(abstractOps.TimeClip(+8.64e15 + 1)), isNaN(NaN));
+            assert.ok(isNaN(abstractOps.TimeClip(-Infinity)));
+            assert.ok(isNaN(abstractOps.TimeClip(+Infinity)));
+            assert.ok(isNaN(abstractOps.TimeClip(-8.64e15 - 1)));
+            assert.ok(isNaN(abstractOps.TimeClip(+8.64e15 + 1)));
         });
     });
 
@@ -1074,8 +1074,8 @@ describe("Abstract operations", function () {
         it("should return a number of milliseconds from its arguments, or `NaN` in case of an error", function () {
             assert.strictEqual(abstractOps.MakeTime(0, 0, 0, 1), 1);
             assert.strictEqual(abstractOps.MakeTime(13, 33, 33, 37), 48813037);
-            assert.strictEqual(isNaN(abstractOps.MakeTime(-Infinity, -Infinity, -Infinity, -Infinity)), isNaN(NaN));
-            assert.strictEqual(isNaN(abstractOps.MakeTime(+Infinity, +Infinity, +Infinity, +Infinity)), isNaN(NaN));
+            assert.ok(isNaN(abstractOps.MakeTime(-Infinity, -Infinity, -Infinity, -Infinity)));
+            assert.ok(isNaN(abstractOps.MakeTime(+Infinity, +Infinity, +Infinity, +Infinity)));
         });
     });
 
