@@ -445,7 +445,7 @@ exports.MakeDay = function (year, month, date) {
     function zeroPad(number, total) {
         var string = String(number);
         return string.length < total ?
-            (new Array(total + 1).join("0") + string).slice(-total) :
+            "0".repeat(total - string.length) + string:
             string;
     }
     var t = Date.parse(zeroPad(ym, 4) + "-" + zeroPad(mn, 2) + "-01T00:00:00.000Z");
