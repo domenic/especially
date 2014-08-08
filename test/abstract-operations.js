@@ -1070,6 +1070,15 @@ describe("Abstract operations", function () {
         });
     });
 
+    describe("MakeTime", function () {
+        it("should return a number of milliseconds from its arguments, or `NaN` in case of an error", function () {
+            assert.strictEqual(abstractOps.MakeTime(0, 0, 0, 1), 1);
+            assert.strictEqual(abstractOps.MakeTime(13, 33, 33, 37), 48813037);
+            assert.strictEqual(isNaN(abstractOps.MakeTime(-Infinity, -Infinity, -Infinity, -Infinity)), isNaN(NaN));
+            assert.strictEqual(isNaN(abstractOps.MakeTime(+Infinity, +Infinity, +Infinity, +Infinity)), isNaN(NaN));
+        });
+    });
+
     describe("GetMethod", function () {
         it("should throw an assertion error when used on a non-object", function () {
             assert.throws(function () {

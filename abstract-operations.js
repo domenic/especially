@@ -242,9 +242,39 @@ exports.ToLength = function (argument) {
     return min(len, Math.pow(2, 53) - 1);
 };
 
+// https://people.mozilla.org/~jorendorff/es6-draft.html#sec-hours-minutes-second-and-milliseconds
+const HoursPerDay	= 24;
+const MinutesPerHour = 60;
+const SecondsPerMinute = 60;
+const msPerSecond = 1000;
+const msPerMinute = msPerSecond * SecondsPerMinute;
+const msPerHour = msPerMinute * MinutesPerHour;
+
+// https://people.mozilla.org/~jorendorff/es6-draft.html#sec-day-number-and-time-within-day
+const msPerDay = 86400000;
+
+// https://people.mozilla.org/~jorendorff/es6-draft.html#sec-hours-minutes-second-and-milliseconds
+exports.HourFromTime = function (t) {
+    return floor(t / msPerHour) % HoursPerDay;
+};
+
+// https://people.mozilla.org/~jorendorff/es6-draft.html#sec-hours-minutes-second-and-milliseconds
+exports.MinFromTime = function (t) {
+    return floor(t / msPerMinute) % MinutesPerHour;
+};
+
+// https://people.mozilla.org/~jorendorff/es6-draft.html#sec-hours-minutes-second-and-milliseconds
+exports.SecFromTime = function (t) {
+    return floor(t / msPerSecond) % SecondsPerMinute;
+};
+
+// https://people.mozilla.org/~jorendorff/es6-draft.html#sec-hours-minutes-second-and-milliseconds
+exports.msFromTime = function (t) {
+    return t % msPerSecond;
+};
+
 // https://people.mozilla.org/~jorendorff/es6-draft.html#sec-year-number
 exports.TimeFromYear = function (y) {
-    var msPerDay = 86400000;
     return msPerDay * exports.DayFromYear(y);
 };
 
@@ -287,13 +317,11 @@ exports.InLeapYear = function (t) {
 
 // https://people.mozilla.org/~jorendorff/es6-draft.html#sec-day-number-and-time-within-day
 exports.Day = function (t) {
-    var msPerDay = 86400000;
     return floor(t / msPerDay);
 };
 
 // https://people.mozilla.org/~jorendorff/es6-draft.html#sec-day-number-and-time-within-day
 exports.TimeWithinDay = function (t) {
-    var msPerDay = 86400000;
     return t % msPerDay;
 };
 
@@ -383,6 +411,22 @@ exports.TimeClip = function (time) {
         return NaN;
     }
     return exports.ToInteger(time) + (+0);
+};
+
+// https://people.mozilla.org/~jorendorff/es6-draft.html#sec-maketime
+exports.MakeTime = function (hour, min, sec, ms) {
+    if (
+        !Number.isFinite(hour) || !Number.isFinite(min) ||
+        !Number.isFinite(sec) || !Number.isFinite(ms)
+    ) {
+        return NaN;
+    }
+    var h = exports.ToInteger(hour);
+    var m = exports.ToInteger(min);
+    var s = exports.ToInteger(sec);
+    var milli = exports.ToInteger(ms);
+    var t = h * msPerHour + m * msPerMinute + s * msPerSecond + milli;
+    return t;
 };
 
 // http://people.mozilla.org/~jorendorff/es6-draft.html#sec-getmethod

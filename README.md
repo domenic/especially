@@ -33,6 +33,7 @@ Especially has no main module (*gasp*). Instead, you'll require one of the top-l
 - [IteratorNext](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-iteratornext)
 - [IteratorStep](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-iteratorstep)
 - [IteratorValue](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-iteratorvalue)
+- [MakeTime](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-maketime)
 - [MonthFromTime](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-month-number)
 - [ObjectCreate](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-objectcreate)
 - [OrdinaryConstruct](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-ordinaryconstruct): use this to get ES6 `new` semantics, with `@@create` support.
