@@ -243,7 +243,7 @@ exports.ToLength = function (argument) {
 };
 
 // https://people.mozilla.org/~jorendorff/es6-draft.html#sec-hours-minutes-second-and-milliseconds
-const HoursPerDay	= 24;
+const HoursPerDay = 24;
 const MinutesPerHour = 60;
 const SecondsPerMinute = 60;
 const msPerSecond = 1000;
@@ -429,6 +429,14 @@ exports.MakeTime = function (hour, min, sec, ms) {
     return t;
 };
 
+// Utility function used in `MakeDay`.
+function zeroPad(number, total) {
+    var string = String(number);
+    return string.length < total ?
+        "0".repeat(total - string.length) + string:
+        string;
+}
+
 // https://people.mozilla.org/~jorendorff/es6-draft.html#sec-makeday
 exports.MakeDay = function (year, month, date) {
     if (
@@ -442,12 +450,6 @@ exports.MakeDay = function (year, month, date) {
     var dt = exports.ToInteger(date);
     var ym = y + floor(m / 12);
     var mn = m % 12;
-    function zeroPad(number, total) {
-        var string = String(number);
-        return string.length < total ?
-            "0".repeat(total - string.length) + string:
-            string;
-    }
     var t = Date.parse(zeroPad(ym, 4) + "-" + zeroPad(mn, 2) + "-01T00:00:00.000Z");
     if (Number.isNaN(t)) {
         return NaN;
