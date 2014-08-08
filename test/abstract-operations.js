@@ -1079,6 +1079,16 @@ describe("Abstract operations", function () {
         });
     });
 
+    describe("MakeDay", function () {
+        it("should return a number of days from its arguments, or `NaN` in case of an error", function () {
+            assert.strictEqual(abstractOps.MakeDay(1970, 1, 1), 0);
+            assert.strictEqual(abstractOps.MakeDay(1970, 1, 2), 1);
+            assert.strictEqual(abstractOps.MakeDay(2014, 8, 9), 16291);
+            assert.strictEqual(isNaN(abstractOps.MakeDay(-Infinity, -Infinity, -Infinity)), isNaN(NaN));
+            assert.strictEqual(isNaN(abstractOps.MakeDay(+Infinity, +Infinity, +Infinity)), isNaN(NaN));
+        });
+    });
+
     describe("GetMethod", function () {
         it("should throw an assertion error when used on a non-object", function () {
             assert.throws(function () {

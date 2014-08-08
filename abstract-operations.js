@@ -429,6 +429,32 @@ exports.MakeTime = function (hour, min, sec, ms) {
     return t;
 };
 
+// https://people.mozilla.org/~jorendorff/es6-draft.html#sec-makeday
+exports.MakeDay = function (year, month, date) {
+    if (
+        !Number.isFinite(year) || !Number.isFinite(month) ||
+        !Number.isFinite(date)
+    ) {
+        return NaN;
+    }
+    var y = exports.ToInteger(year);
+    var m = exports.ToInteger(month);
+    var dt = exports.ToInteger(date);
+    var ym = y + floor(m / 12);
+    var mn = m % 12;
+    function zeroPad(number, total) {
+        var string = String(number);
+        return string.length < total ?
+            (new Array(total + 1).join("0") + string).slice(-total) :
+            string;
+    }
+    var t = Date.parse(zeroPad(ym, 4) + "-" + zeroPad(mn, 2) + "-01T00:00:00.000Z");
+    if (Number.isNaN(t)) {
+        return NaN;
+    }
+    return exports.Day(t) + dt - 1;
+};
+
 // http://people.mozilla.org/~jorendorff/es6-draft.html#sec-getmethod
 exports.GetMethod = function (O, P) {
     assert(exports.Type(O) === "Object");
