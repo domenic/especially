@@ -455,6 +455,14 @@ exports.MakeDay = function (year, month, date) {
     return exports.Day(t) + dt - 1;
 };
 
+// https://people.mozilla.org/~jorendorff/es6-draft.html#sec-makedate
+exports.MakeDate = function (day, time) {
+    if (!Number.isFinite(day) || !Number.isFinite(time)) {
+        return NaN;
+    }
+    return day * msPerDay + time;
+};
+
 // http://people.mozilla.org/~jorendorff/es6-draft.html#sec-getmethod
 exports.GetMethod = function (O, P) {
     assert(exports.Type(O) === "Object");
