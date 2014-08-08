@@ -374,6 +374,17 @@ exports.DateFromTime = function (t) {
     }
 };
 
+// https://people.mozilla.org/~jorendorff/es6-draft.html#sec-timeclip
+exports.TimeClip = function (time) {
+    if (!Number.isFinite(time)) {
+        return NaN;
+    }
+    if (abs(time) > 8.64e15) {
+        return NaN;
+    }
+    return exports.ToInteger(time) + (+0);
+};
+
 // http://people.mozilla.org/~jorendorff/es6-draft.html#sec-getmethod
 exports.GetMethod = function (O, P) {
     assert(exports.Type(O) === "Object");

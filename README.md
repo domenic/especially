@@ -39,6 +39,7 @@ Especially has no main module (*gasp*). Instead, you'll require one of the top-l
 - [OrdinaryCreateFromConstructor](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-ordinarycreatefromconstructor)
 - [SameValue](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-samevalue)
 - [SameValueZero](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-samevaluezero)
+- [TimeClip](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-timeclip)
 - [TimeFromYear](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-year-number)
 - [TimeWithinDay](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-day-number-and-time-within-day)
 - [ToBoolean](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-toboolean)

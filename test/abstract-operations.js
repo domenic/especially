@@ -1060,6 +1060,16 @@ describe("Abstract operations", function () {
         });
     });
 
+    describe("TimeClip", function () {
+        it("should return a number of milliseconds for a valid time value, or `NaN` otherwise", function () {
+            assert.strictEqual(abstractOps.TimeClip(946684800000), 946684800000);
+            assert.strictEqual(isNaN(abstractOps.TimeClip(-Infinity)), isNaN(NaN));
+            assert.strictEqual(isNaN(abstractOps.TimeClip(+Infinity)), isNaN(NaN));
+            assert.strictEqual(isNaN(abstractOps.TimeClip(-8.64e15 - 1)), isNaN(NaN));
+            assert.strictEqual(isNaN(abstractOps.TimeClip(+8.64e15 + 1)), isNaN(NaN));
+        });
+    });
+
     describe("GetMethod", function () {
         it("should throw an assertion error when used on a non-object", function () {
             assert.throws(function () {
