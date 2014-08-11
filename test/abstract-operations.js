@@ -6,9 +6,39 @@ var atAtCreate = require("../well-known-symbols")["@@create"];
 var atAtIterator = require("../well-known-symbols")["@@iterator"];
 var assert = require("assert");
 
+function modifyGlobal(globalName) {
+    var savedGlobal;
+
+    beforeEach(function () {
+        savedGlobal = global[globalName];
+        global[globalName] = function () {
+            throw new Error("The overriden version of the " + globalName + " global was used!");
+        };
+    });
+
+    afterEach(function () {
+        global[globalName] = savedGlobal;
+    });
+}
+
+function modifyGlobalMethod(globalObject, methodName) {
+    var savedMethod;
+
+    beforeEach(function () {
+        savedMethod = globalObject[methodName];
+        globalObject[methodName] = function () {
+            throw new Error("The overriden version of the " + methodName + " method was used!");
+        };
+    });
+
+    afterEach(function () {
+        globalObject[methodName] = savedMethod;
+    });
+}
+
 describe("Abstract operations", function () {
     describe("IsCallable", function () {
-        it("returns `true` for normal functions", function () {
+        it("returns `true` for normal functfdions", function () {
             assert.strictEqual(abstractOps.IsCallable(function () { }), true);
         });
 
@@ -331,6 +361,14 @@ describe("Abstract operations", function () {
             assert.strictEqual(abstractOps.SameValue(f1, f2), false);
             assert.strictEqual(abstractOps.SameValue(f2, f1), false);
         });
+
+        describe("with modifications to Object.is", function () {
+            modifyGlobalMethod(Object, "is");
+
+            it("should still work", function () {
+                assert.strictEqual(abstractOps.SameValue(true, true), true);
+            });
+        });
     });
 
     describe("SameValueZero", function () {
@@ -398,6 +436,14 @@ describe("Abstract operations", function () {
             assert.strictEqual(abstractOps.SameValueZero(o1, f1), false);
             assert.strictEqual(abstractOps.SameValueZero(f1, f2), false);
             assert.strictEqual(abstractOps.SameValueZero(f2, f1), false);
+        });
+
+        describe("with modifications to Object.is", function () {
+            modifyGlobalMethod(Object, "is");
+
+            it("should still work", function () {
+                assert.strictEqual(abstractOps.SameValueZero(true, true), true);
+            });
         });
     });
 
@@ -754,6 +800,16 @@ describe("Abstract operations", function () {
             assert.strictEqual(wrappedO, o);
             assert.strictEqual(wrappedF, f);
         });
+
+        describe("with modifications to the global Object constructor", function () {
+            modifyGlobal("Object");
+
+            it("should still work", function () {
+                var o = {};
+                var wrappedO = abstractOps.ToObject(o);
+                assert.strictEqual(wrappedO, o);
+            });
+        });
     });
 
     describe("ToBoolean", function () {
@@ -795,6 +851,14 @@ describe("Abstract operations", function () {
             assert.strictEqual(abstractOps.ToBoolean(function () { }), true);
             assert.strictEqual(abstractOps.ToBoolean(new Boolean(false)), true);
             assert.strictEqual(abstractOps.ToBoolean(new Number(0)), true);
+        });
+
+        describe("with modifications to the global Boolean constructor", function () {
+            modifyGlobal("Boolean");
+
+            it("should still work", function () {
+                assert.strictEqual(abstractOps.ToBoolean(" "), true);
+            });
         });
     });
 
@@ -853,6 +917,14 @@ describe("Abstract operations", function () {
                 abstractOps.ToNumber(new Symbol());
             }, TypeError);
         });
+
+        describe("with modifications to the global Number constructor", function () {
+            modifyGlobal("Number");
+
+            it("should still work", function () {
+                assert.strictEqual(abstractOps.ToNumber("123"), 123);
+            });
+        });
     });
 
     describe("ToInteger", function () {
@@ -888,6 +960,38 @@ describe("Abstract operations", function () {
             assert.strictEqual(abstractOps.ToInteger("asdf"), 0);
             assert.strictEqual(abstractOps.ToInteger({}), 0);
         });
+
+        describe("with modifications to Number.isNaN", function () {
+            modifyGlobalMethod(Number, "isNaN");
+
+            it("should still work", function () {
+                assert.strictEqual(abstractOps.ToInteger(NaN), +0);
+            });
+        });
+
+        describe("with modifications to Math.abs", function () {
+            modifyGlobalMethod(Math, "abs");
+
+            it("should still work", function () {
+                assert.strictEqual(abstractOps.ToInteger("123"), 123);
+            });
+        });
+
+        describe("with modifications to Math.floor", function () {
+            modifyGlobalMethod(Math, "floor");
+
+            it("should still work", function () {
+                assert.strictEqual(abstractOps.ToInteger("123"), 123);
+            });
+        });
+
+        describe("with modifications to the global isNaN function", function () {
+            modifyGlobal("isNaN");
+
+            it("should still work", function () {
+                assert.strictEqual(abstractOps.ToInteger("123"), 123);
+            });
+        });
     });
 
     describe("ToLength", function () {
@@ -914,6 +1018,22 @@ describe("Abstract operations", function () {
         it("should return the input for numbers between 0 and 2^53 - 1", function () {
             assert.strictEqual(abstractOps.ToLength(Math.pow(2, 52)), Math.pow(2, 52));
             assert.strictEqual(abstractOps.ToLength(Math.pow(2, 53) - 3), Math.pow(2, 53) - 3);
+        });
+
+        describe("with modifications to Math.min", function () {
+            modifyGlobalMethod(Math, "min");
+
+            it("should still work", function () {
+                assert.strictEqual(abstractOps.ToLength("123"), 123);
+            });
+        });
+
+        describe("with modifications to Math.pow", function () {
+            modifyGlobalMethod(Math, "pow");
+
+            it("should still work", function () {
+                assert.strictEqual(abstractOps.ToLength("123"), 123);
+            });
         });
     });
 
@@ -953,6 +1073,14 @@ describe("Abstract operations", function () {
             assert.throws(function () {
                 abstractOps.ToString(new Symbol());
             }, TypeError);
+        });
+
+        describe("with modifications to the global String constructor", function () {
+            modifyGlobal("String");
+
+            it("should still work", function () {
+                assert.strictEqual(abstractOps.ToString(10), "10");
+            });
         });
     });
 

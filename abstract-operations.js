@@ -10,6 +10,11 @@ var floor = require("./math").floor;
 var abs = require("./math").abs;
 var min = require("./math").min;
 
+var global_Object = global.Object;
+var Number_isNaN = Number.isNaN;
+var Math_pow = Math.pow;
+var Object_is = Object.is;
+
 // Necessary for CreateFromConstructor to work properly.
 // http://people.mozilla.org/~jorendorff/es6-draft.html#sec-function.prototype-@@create
 Function.prototype[atAtCreate] = function () {
@@ -89,12 +94,12 @@ exports.HasProperty = function (O, P) {
 
 // http://people.mozilla.org/~jorendorff/es6-draft.html#sec-samevalue
 exports.SameValue = function (x, y) {
-    return Object.is(x, y);
+    return Object_is(x, y);
 };
 
 // http://people.mozilla.org/~jorendorff/es6-draft.html#sec-samevaluezero
 exports.SameValueZero = function (x, y) {
-    return (x === 0 && y === 0) || Object.is(x, y);
+    return (x === 0 && y === 0) || Object_is(x, y);
 };
 
 // http://people.mozilla.org/~jorendorff/es6-draft.html#sec-arraycreate
@@ -200,28 +205,28 @@ exports.ToObject = function (argument) {
         throw new TypeError("Null or undefined passed to ToObject");
     }
 
-    return Object(argument);
+    return global_Object(argument);
 };
 
 // http://people.mozilla.org/~jorendorff/es6-draft.html#sec-toboolean
 exports.ToBoolean = function (argument) {
-    return Boolean(argument);
+    return !!argument;
 };
 
 // http://people.mozilla.org/~jorendorff/es6-draft.html#sec-tostring
 exports.ToString = function (argument) {
-    return String(argument);
+    return "" + argument;
 };
 
 // http://people.mozilla.org/~jorendorff/es6-draft.html#sec-tonumber
 exports.ToNumber = function (argument) {
-    return Number(argument);
+    return +argument;
 };
 
 // http://people.mozilla.org/~jorendorff/es6-draft.html#sec-tointeger
 exports.ToInteger = function (argument) {
     let number = exports.ToNumber(argument);
-    if (Number.isNaN(number)) {
+    if (Number_isNaN(number)) {
         return +0;
     }
 
@@ -239,7 +244,7 @@ exports.ToLength = function (argument) {
         return +0;
     }
 
-    return min(len, Math.pow(2, 53) - 1);
+    return min(len, Math_pow(2, 53) - 1);
 };
 
 // https://people.mozilla.org/~jorendorff/es6-draft.html#sec-hours-minutes-second-and-milliseconds
@@ -451,7 +456,7 @@ exports.MakeDay = function (year, month, date) {
     var ym = y + floor(m / 12);
     var mn = m % 12;
     var t = Date.parse(zeroPad(ym, 4) + "-" + zeroPad(mn, 2) + "-01T00:00:00.000Z");
-    if (Number.isNaN(t)) {
+    if (Number_isNaN(t)) {
         return NaN;
     }
     return exports.Day(t) + dt - 1;
