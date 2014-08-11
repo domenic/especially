@@ -8,7 +8,7 @@
     "indent": 4,
     "latedef": "nofunc",
     "maxlen": 120,
-    "newcap": true,
+    "newcap": false,
     "noarg": true,
     "node": true,
     "nonew": true,
