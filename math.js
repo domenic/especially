@@ -3,6 +3,7 @@
 var assert = require("./meta").assert;
 
 exports.sign = function (x) {
+    assert(typeof x === "number");
     assert(x !== 0);
     assert(x !== Infinity);
     assert(x !== -Infinity);
@@ -11,6 +12,7 @@ exports.sign = function (x) {
 };
 
 exports.floor = function (x) {
+    assert(typeof x === "number");
     assert(x !== Infinity);
     assert(x !== -Infinity);
     assert(!isNaN(x));
@@ -18,8 +20,7 @@ exports.floor = function (x) {
 };
 
 exports.abs = function (x) {
-    assert(x !== Infinity);
-    assert(x !== -Infinity);
+    assert(typeof x === "number");
     assert(!isNaN(x));
     return Math.abs(x);
 };
@@ -27,8 +28,7 @@ exports.abs = function (x) {
 exports.min = function () {
     for (var i = 0; i < arguments.length; ++i) {
         var x = arguments[i];
-        assert(x !== Infinity);
-        assert(x !== -Infinity);
+        assert(typeof x === "number");
         assert(!isNaN(x));
     }
 

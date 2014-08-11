@@ -908,6 +908,7 @@ describe("Abstract operations", function () {
         it("should return 2^53 - 1 for numbers above 2^53 - 1", function () {
             assert.strictEqual(abstractOps.ToLength(Math.pow(2, 53)), Math.pow(2, 53) - 1);
             assert.strictEqual(abstractOps.ToLength(Math.pow(2, 55)), Math.pow(2, 53) - 1);
+            assert.strictEqual(abstractOps.ToLength(+Infinity), Math.pow(2, 53) - 1);
         });
 
         it("should return the input for numbers between 0 and 2^53 - 1", function () {
