@@ -38,7 +38,7 @@ function modifyGlobalMethod(globalObject, methodName) {
 
 describe("Abstract operations", function () {
     describe("IsCallable", function () {
-        it("returns `true` for normal functfdions", function () {
+        it("returns `true` for normal functions", function () {
             assert.strictEqual(abstractOps.IsCallable(function () { }), true);
         });
 
