@@ -11,6 +11,7 @@ var abs = require("./math").abs;
 var min = require("./math").min;
 
 var global_Object = global.Object;
+var global_String = global.String;
 var Number_isNaN = Number.isNaN;
 var Math_pow = Math.pow;
 var Object_is = Object.is;
@@ -215,7 +216,7 @@ exports.ToBoolean = function (argument) {
 
 // http://people.mozilla.org/~jorendorff/es6-draft.html#sec-tostring
 exports.ToString = function (argument) {
-    return "" + argument;
+    return global_String(argument);
 };
 
 // http://people.mozilla.org/~jorendorff/es6-draft.html#sec-tonumber

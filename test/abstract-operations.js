@@ -1075,6 +1075,11 @@ describe("Abstract operations", function () {
             }, TypeError);
         });
 
+        it("should prefer toString to valueOf on objects", function () {
+            var o = { valueOf: function () { return 5; }, toString: function () { return "foo"; } };
+            assert.strictEqual(abstractOps.ToString(o), "foo");
+        });
+
         describe("with modifications to the global String constructor", function () {
             modifyGlobal("String");
 
