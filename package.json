@@ -10,11 +10,11 @@
         "*.js"
     ],
     "scripts": {
-        "test": "mocha",
+        "test": "mocha --reporter dot",
         "lint": "jshint ."
     },
     "devDependencies": {
-        "jshint": "~2.3.0",
-        "mocha": "~1.15.1"
+        "jshint": "^2.6.3",
+        "mocha": "^2.2.4"
     }
 }
