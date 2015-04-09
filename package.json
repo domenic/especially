@@ -11,7 +11,7 @@
     },
     "bugs": "http://github.com/domenic/especially/issues",
     "scripts": {
-        "test": "mocha --harmony",
+        "test": "mocha",
         "lint": "jshint ."
     },
     "devDependencies": {

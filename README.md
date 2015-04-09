@@ -83,8 +83,8 @@ Some of the [well-known intrinsic objects](http://people.mozilla.org/~jorendorff
 
 ## Usage Notes
 
-Especially is meant to run in Node.js 0.11.9+, at least for now. It uses certain ES6 features so far only implemented in bleeding-edge V8, with the `--harmony` flag turned on.
+Especially is meant to run in io.js (not Node.js™). It uses certain ES6 features only implemented in modern V8.
 
-Install it from npm into your project with `npm install especially`. And don't forget to run your program, or your tests, with the `--harmony` flag.
+Install it from npm into your project with `npm install especially`.
 
 You can see examples of it in use in [the reference implementation of the ES6 promises specification](https://github.com/domenic/promises-unwrapping/tree/master/reference-implementation).
