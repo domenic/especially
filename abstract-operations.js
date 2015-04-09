@@ -4,6 +4,7 @@ var assert = require("./meta").assert;
 var intrinsics = require("./intrinsics");
 var make_slots = require("./meta").make_slots;
 var atAtIterator = require("./well-known-symbols")["@@iterator"];
+var atAtSpecies = require("./well-known-symbols")["@@species"];
 var sign = require("./math").sign;
 var floor = require("./math").floor;
 var abs = require("./math").abs;
@@ -525,4 +526,28 @@ exports.EnqueueJob = function (queueName, job, args) {
     process.nextTick(function () {
         job.apply(undefined, args);
     });
+};
+
+// https://people.mozilla.org/~jorendorff/es6-draft.html#sec-speciesconstructor
+exports.SpeciesConstructor = function (O, defaultConstructor) {
+    assert(exports.Type(O) === "Object");
+
+    var C = exports.Get(O, "constructor");
+    if (C === undefined) {
+        return defaultConstructor;
+    }
+    if (exports.Type(C) !== "Object") {
+        throw new TypeError("Tried to get species but the constructor property was not an object.");
+    }
+
+    var S = exports.Get(C, atAtSpecies);
+    if (S === undefined || S === null) {
+        return defaultConstructor;
+    }
+
+    if (exports.IsConstructor(S) === true) {
+        return S;
+    }
+
+    throw new TypeError("Result of getting species was a non-constructor.");
 };

@@ -42,6 +42,7 @@ Especially has no main module (*gasp*). Instead, you'll require one of the top-l
 - [OrdinaryCreateFromConstructor](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-ordinarycreatefromconstructor)
 - [SameValue](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-samevalue)
 - [SameValueZero](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-samevaluezero)
+- [SpeciesConstructor](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-speciesconstructor)
 - [TimeClip](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-timeclip)
 - [TimeFromYear](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-year-number)
 - [TimeWithinDay](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-day-number-and-time-within-day)
@@ -78,6 +79,7 @@ A variety of math operations from the [Algorithm Conventions](http://people.mozi
 One [well-known symbol](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-well-known-symbols) is included:
 
 - `"@@iterator"` will give you a symbol that is used by GetIterator. (It is the same as V8's default `Symbol.iterator`.)
+- `"@@species"` will give the symbol that is used by SpeciesConstructor. (It is a freshly-minted symbol, since V8 doesn't have `Symbol.species` yet.)
 
 ### require("especially/intrinsics")
 
