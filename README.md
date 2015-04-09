@@ -2,7 +2,7 @@
 
 Have you ever wanted to write a to-the-letter implementation of some ECMAScript spec function? Maybe you want to run tests against it; maybe you're just crazy and like self-hosting JavaScript in JavaScript. In either case, this is the package for you!
 
-**Especially** has a small-but-growing collection of meta-textual and abstract operations drawn directly from the pages of the [ECMAScript 6 draft specification](http://people.mozilla.org/~jorendorff/es6-draft.html). From common things like [Get](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-get-o-p) to dealing with [internal slots](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-object-internal-methods-and-internal-slots), Especially has you covered.
+**Especially** has a small-but-growing collection of meta-textual and abstract operations drawn directly from the pages of the [ECMAScript 2015 draft specification](http://people.mozilla.org/~jorendorff/es6-draft.html). From common things like [Get](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-get-o-p) to dealing with [internal slots](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-object-internal-methods-and-internal-slots), Especially has you covered.
 
 ## APIs
 
@@ -83,8 +83,8 @@ Some of the [well-known intrinsic objects](http://people.mozilla.org/~jorendorff
 
 ## Usage Notes
 
-Especially is meant to run in io.js (not Node.js™). It uses certain ES6 features only implemented in modern V8.
+Especially is meant to run in io.js (not Node.js™). It uses certain ES2015 features only implemented in modern V8.
 
 Install it from npm into your project with `npm install especially`.
 
-You can see examples of it in use in [the reference implementation of the ES6 promises specification](https://github.com/domenic/promises-unwrapping/tree/master/reference-implementation).
+You can see examples of it in use in [the reference implementation of the ES2015 promises specification](https://github.com/domenic/promises-unwrapping/tree/master/reference-implementation).
