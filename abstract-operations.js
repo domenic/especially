@@ -15,6 +15,19 @@ var Number_isNaN = Number.isNaN;
 var Math_pow = Math.pow;
 var Object_is = Object.is;
 
+// https://people.mozilla.org/~jorendorff/es6-draft.html#sec-call
+exports.Call = function (F, V, argumentsList) {
+    if (arguments.length === 2) {
+        argumentsList = [];
+    }
+
+    if (exports.IsCallable(F) === false) {
+        throw new TypeError("Tried to call a non-callable function.");
+    }
+
+    return F.apply(V, argumentsList);
+};
+
 // http://people.mozilla.org/~jorendorff/es6-draft.html#sec-iscallable
 exports.IsCallable = function (argument) {
     return typeof argument === "function";

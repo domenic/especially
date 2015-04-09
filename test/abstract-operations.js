@@ -37,6 +37,57 @@ function modifyGlobalMethod(globalObject, methodName) {
 }
 
 describe("Abstract operations", function () {
+    describe("Call", function () {
+        it("throws a TypeError if given a non-callable", function () {
+            assert.throws(function () {
+                abstractOps.Call({}, {}, []);
+            }, TypeError);
+
+            assert.throws(function () {
+                abstractOps.Call("foo", {}, []);
+            }, TypeError);
+        });
+
+        it("passes no arguments if argumentsList is not given", function () {
+            var argsLength;
+
+            abstractOps.Call(function () {
+                argsLength = arguments.length;
+            }, undefined);
+
+            assert.strictEqual(argsLength, 0);
+        });
+
+        it("calls with the passed thisArg", function () {
+            var actualThisArg;
+            var expectedThisArg = { foo: "bar" };
+
+            abstractOps.Call(function () {
+                actualThisArg = this;
+            }, expectedThisArg);
+
+            assert.strictEqual(actualThisArg, expectedThisArg);
+        });
+
+        it("calls with the passed arguments list", function () {
+            var actualArg0;
+            var actualArg1;
+            var actualArgsLength;
+            var expectedArg0 = { foo: "bar" };
+            var expectedArg1 = 5;
+
+            abstractOps.Call(function () {
+                actualArg0 = arguments[0];
+                actualArg1 = arguments[1];
+                actualArgsLength = arguments.length;
+            }, undefined, [expectedArg0, expectedArg1]);
+
+            assert.strictEqual(actualArg0, expectedArg0);
+            assert.strictEqual(actualArg1, expectedArg1);
+            assert.strictEqual(actualArgsLength, 2);
+        });
+    });
+
     describe("IsCallable", function () {
         it("returns `true` for normal functions", function () {
             assert.strictEqual(abstractOps.IsCallable(function () { }), true);

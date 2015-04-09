@@ -11,6 +11,7 @@ Especially has no main module (*gasp*). Instead, you'll require one of the top-l
 ### require("especially/abstract-operations")
 
 - [ArrayCreate](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-arraycreate)
+- [Call](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-call)
 - [CreateDataProperty](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-createdataproperty)
 - [DateFromTime](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-date-number)
 - [Day](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-day-number-and-time-within-day)
