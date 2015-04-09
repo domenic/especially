@@ -17,7 +17,7 @@ Especially has no main module (*gasp*). Instead, you'll require one of the top-l
 - [DayFromYear](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-year-number)
 - [DaysInYear](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-year-number)
 - [DayWithinYear](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-month-number)
-- [EnqueueTask](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-enqueuetask)
+- [EnqueueJob](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-enqueuejob)
 - [Get](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-get-o-p)
 - [GetIterator](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-getiterator): uses the `@@iterator` symbol.
 - [GetMethod](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-getmethod)

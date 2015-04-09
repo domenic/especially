@@ -1315,46 +1315,46 @@ describe("Abstract operations", function () {
         });
     });
 
-    describe("EnqueueTask", function () {
+    describe("EnqueueJob", function () {
         it("should throw an assertion error for non-string queue names", function () {
             assert.throws(function () {
-                abstractOps.EnqueueTask(5, function () {}, []);
+                abstractOps.EnqueueJob(5, function () {}, []);
             }, /assertion failure/);
 
             assert.throws(function () {
-                abstractOps.EnqueueTask(null, function () {}, []);
+                abstractOps.EnqueueJob(null, function () {}, []);
             }, /assertion failure/);
         });
 
         it("should throw an assertion error for non-function tasks", function () {
             assert.throws(function () {
-                abstractOps.EnqueueTask("PromiseTasks", {}, []);
+                abstractOps.EnqueueJob("PromiseTasks", {}, []);
             }, /assertion failure/);
         });
 
         it("should throw an assertion error for non-array arguments", function () {
             assert.throws(function () {
-                abstractOps.EnqueueTask("PromiseTasks", function () { }, {});
+                abstractOps.EnqueueJob("PromiseTasks", function () { }, {});
             }, /assertion failure/);
 
             assert.throws(function () {
-                abstractOps.EnqueueTask("PromiseTasks", function () { }, null);
+                abstractOps.EnqueueJob("PromiseTasks", function () { }, null);
             }, /assertion failure/);
         });
 
         it("should throw an assertion error if the arguments do not match the task's expectations", function () {
             assert.throws(function () {
-                abstractOps.EnqueueTask("PromiseTasks", function (a) { }, []);
+                abstractOps.EnqueueJob("PromiseTasks", function (a) { }, []);
             }, /assertion failure/);
 
             assert.throws(function () {
-                abstractOps.EnqueueTask("PromiseTasks", function () { }, [1]);
+                abstractOps.EnqueueJob("PromiseTasks", function () { }, [1]);
             }, /assertion failure/);
         });
 
         it("should run on a new execution context", function (done) {
             var counter = 0;
-            abstractOps.EnqueueTask("PromiseTasks", function () {
+            abstractOps.EnqueueJob("PromiseTasks", function () {
                 assert.strictEqual(counter, 1);
                 done();
             }, []);

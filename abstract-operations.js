@@ -504,12 +504,13 @@ exports.IteratorStep = function (iterator, value) {
     return result;
 };
 
-exports.EnqueueTask = function (queueName, task, args) {
+// https://people.mozilla.org/~jorendorff/es6-draft.html#sec-enqueuejob
+exports.EnqueueJob = function (queueName, job, args) {
     assert(exports.Type(queueName) === "String");
-    assert(typeof task === "function");
-    assert(Array.isArray(args) && args.length === task.length);
+    assert(typeof job === "function");
+    assert(Array.isArray(args) && args.length === job.length);
 
     process.nextTick(function () {
-        task.apply(undefined, args);
+        job.apply(undefined, args);
     });
 };
