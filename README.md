@@ -75,7 +75,7 @@ A variety of math operations from the [Algorithm Conventions](http://people.mozi
 
 One [well-known symbol](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-well-known-symbols) is included:
 
-- `"@@iterator"` will give you a symbol that is used by GetIterator.
+- `"@@iterator"` will give you a symbol that is used by GetIterator. (It is the same as V8's default `Symbol.iterator`.)
 
 ### require("especially/intrinsics")
 
