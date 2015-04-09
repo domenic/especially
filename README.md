@@ -12,7 +12,6 @@ Especially has no main module (*gasp*). Instead, you'll require one of the top-l
 
 - [ArrayCreate](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-arraycreate)
 - [CreateDataProperty](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-createdataproperty)
-- [CreateFromConstructor](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-createfromconstructor)
 - [DateFromTime](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-date-number)
 - [Day](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-day-number-and-time-within-day)
 - [DayFromYear](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-year-number)
@@ -38,7 +37,6 @@ Especially has no main module (*gasp*). Instead, you'll require one of the top-l
 - [MakeTime](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-maketime)
 - [MonthFromTime](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-month-number)
 - [ObjectCreate](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-objectcreate)
-- [OrdinaryConstruct](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-ordinaryconstruct): use this to get ES6 `new` semantics, with `@@create` support.
 - [OrdinaryCreateFromConstructor](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-ordinarycreatefromconstructor)
 - [SameValue](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-samevalue)
 - [SameValueZero](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-samevaluezero)
@@ -75,9 +73,8 @@ A variety of math operations from the [Algorithm Conventions](http://people.mozi
 
 ### require("especially/well-known-symbols")
 
-A few [well-known symbol](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-well-known-symbols) are included:
+One [well-known symbol](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-well-known-symbols) is included:
 
-- `"@@create"` will give you a symbol that is used by OrdinaryConstruct and related operations.
 - `"@@iterator"` will give you a symbol that is used by GetIterator.
 
 ### require("especially/intrinsics")

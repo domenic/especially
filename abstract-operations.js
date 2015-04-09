@@ -3,7 +3,6 @@
 var assert = require("./meta").assert;
 var intrinsics = require("./intrinsics");
 var make_slots = require("./meta").make_slots;
-var atAtCreate = require("./well-known-symbols")["@@create"];
 var atAtIterator = require("./well-known-symbols")["@@iterator"];
 var sign = require("./math").sign;
 var floor = require("./math").floor;
@@ -15,12 +14,6 @@ var global_String = global.String;
 var Number_isNaN = Number.isNaN;
 var Math_pow = Math.pow;
 var Object_is = Object.is;
-
-// Necessary for CreateFromConstructor to work properly.
-// http://people.mozilla.org/~jorendorff/es6-draft.html#sec-function.prototype-@@create
-Function.prototype[atAtCreate] = function () {
-    return exports.OrdinaryCreateFromConstructor(this, "%ObjectPrototype%");
-};
 
 // http://people.mozilla.org/~jorendorff/es6-draft.html#sec-iscallable
 exports.IsCallable = function (argument) {
@@ -118,13 +111,13 @@ exports.ArrayCreate = function (length) {
 };
 
 // http://people.mozilla.org/~jorendorff/es6-draft.html#sec-objectcreate
-exports.ObjectCreate = function (proto, internalDataList) {
-    if (internalDataList === undefined) {
-        internalDataList = [];
+exports.ObjectCreate = function (proto, internalSlotsList) {
+    if (internalSlotsList === undefined) {
+        internalSlotsList = [];
     }
 
     let obj = Object.create(proto);
-    make_slots(obj, internalDataList);
+    make_slots(obj, internalSlotsList);
 
     return obj;
 };
@@ -146,58 +139,12 @@ exports.GetPrototypeFromConstructor = function (constructor, intrinsicDefaultPro
     return proto;
 };
 
-// http://people.mozilla.org/~jorendorff/es6-draft.html#sec-createfromconstructor
-exports.CreateFromConstructor = function (F) {
-    let creator = exports.Get(F, atAtCreate);
-    if (creator === undefined) {
-        return undefined;
-    }
-
-    if (exports.IsCallable(creator) === false) {
-        throw new TypeError("Non-callable @@create value");
-    }
-
-    let obj = creator.apply(F, []);
-
-    if (exports.Type(obj) !== "Object") {
-        throw new TypeError("Non-object created");
-    }
-
-    return obj;
-};
-
 // http://people.mozilla.org/~jorendorff/es6-draft.html#sec-ordinarycreatefromconstructor
-exports.OrdinaryCreateFromConstructor = function (constructor, intrinsicDefaultProto, internalDataList) {
+exports.OrdinaryCreateFromConstructor = function (constructor, intrinsicDefaultProto, internalSlotsList) {
     assert(exports.Type(intrinsicDefaultProto) === "String" && intrinsicDefaultProto in intrinsics);
 
     let proto = exports.GetPrototypeFromConstructor(constructor, intrinsicDefaultProto);
-    return exports.ObjectCreate(proto, internalDataList);
-};
-
-// http://people.mozilla.org/~jorendorff/es6-draft.html#sec-ordinaryconstruct
-exports.OrdinaryConstruct = function (F, argumentsList) {
-    let creator = exports.Get(F, atAtCreate);
-    var obj;
-    if (creator !== undefined) {
-        if (exports.IsCallable(creator) === false) {
-            throw new TypeError("Non-callable @@create value");
-        }
-        obj = creator.apply(F, []);
-    } else {
-        obj = exports.OrdinaryCreateFromConstructor(F, "%ObjectPrototype%");
-    }
-
-    if (exports.Type(obj) !== "Object") {
-        throw new TypeError("Non-object created.");
-    }
-
-    let result = F.apply(obj, argumentsList);
-
-    if (exports.Type(result) === "Object") {
-        return result;
-    }
-
-    return obj;
+    return exports.ObjectCreate(proto, internalSlotsList);
 };
 
 // http://people.mozilla.org/~jorendorff/es6-draft.html#sec-toobject
