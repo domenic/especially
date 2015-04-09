@@ -2,7 +2,7 @@
 
 // Exports meta-level operations, i.e. things that are only specified textually in the ECMAScript specification.
 
-let slotsMap = new WeakMap();
+const slotsMap = new WeakMap();
 
 // http://people.mozilla.org/~jorendorff/es6-draft.html#sec-algorithm-conventions
 exports.assert = function (condition) {
@@ -20,7 +20,7 @@ exports.assert = function (condition) {
 exports.make_slots = function (obj, names) {
     exports.assert(!slotsMap.has(obj));
 
-    let slots = Object.create(null);
+    const slots = Object.create(null);
     names.forEach(function (name) {
         slots[name] = undefined;
     });

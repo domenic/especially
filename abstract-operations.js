@@ -1,20 +1,20 @@
 "use strict";
 
-var assert = require("./meta").assert;
-var intrinsics = require("./intrinsics");
-var make_slots = require("./meta").make_slots;
-var atAtIterator = require("./well-known-symbols")["@@iterator"];
-var atAtSpecies = require("./well-known-symbols")["@@species"];
-var sign = require("./math").sign;
-var floor = require("./math").floor;
-var abs = require("./math").abs;
-var min = require("./math").min;
+const assert = require("./meta").assert;
+const intrinsics = require("./intrinsics");
+const make_slots = require("./meta").make_slots;
+const atAtIterator = require("./well-known-symbols")["@@iterator"];
+const atAtSpecies = require("./well-known-symbols")["@@species"];
+const sign = require("./math").sign;
+const floor = require("./math").floor;
+const abs = require("./math").abs;
+const min = require("./math").min;
 
-var global_Object = global.Object;
-var global_String = global.String;
-var Number_isNaN = Number.isNaN;
-var Math_pow = Math.pow;
-var Object_is = Object.is;
+const global_Object = global.Object;
+const global_String = global.String;
+const Number_isNaN = Number.isNaN;
+const Math_pow = Math.pow;
+const Object_is = Object.is;
 
 // https://people.mozilla.org/~jorendorff/es6-draft.html#sec-call
 exports.Call = function (F, V, argumentsList) {
@@ -48,7 +48,7 @@ exports.Invoke = function (O, P, argumentsList) {
         argumentsList = [];
     }
 
-    var func = exports.GetV(O, P);
+    const func = exports.GetV(O, P);
     return exports.Call(func, O, argumentsList);
 };
 
@@ -106,7 +106,7 @@ exports.CreateDataProperty = function (O, P, V) {
     assert(exports.Type(O) === "Object");
     assert(exports.IsPropertyKey(P) === true);
 
-    let newDesc = { value: V, writable: true, enumerable: true, configurable: true };
+    const newDesc = { value: V, writable: true, enumerable: true, configurable: true };
     return Object.defineProperty(O, P, newDesc);
 };
 
@@ -147,7 +147,7 @@ exports.ObjectCreate = function (proto, internalSlotsList) {
         internalSlotsList = [];
     }
 
-    let obj = Object.create(proto);
+    const obj = Object.create(proto);
     make_slots(obj, internalSlotsList);
 
     return obj;
@@ -161,7 +161,7 @@ exports.GetPrototypeFromConstructor = function (constructor, intrinsicDefaultPro
         throw new TypeError("Given a non-constructor");
     }
 
-    var proto = exports.Get(constructor, "prototype");
+    let proto = exports.Get(constructor, "prototype");
 
     if (exports.Type(proto) !== "Object") {
         proto = intrinsics[intrinsicDefaultProto];
@@ -174,7 +174,7 @@ exports.GetPrototypeFromConstructor = function (constructor, intrinsicDefaultPro
 exports.OrdinaryCreateFromConstructor = function (constructor, intrinsicDefaultProto, internalSlotsList) {
     assert(exports.Type(intrinsicDefaultProto) === "String" && intrinsicDefaultProto in intrinsics);
 
-    let proto = exports.GetPrototypeFromConstructor(constructor, intrinsicDefaultProto);
+    const proto = exports.GetPrototypeFromConstructor(constructor, intrinsicDefaultProto);
     return exports.ObjectCreate(proto, internalSlotsList);
 };
 
@@ -204,7 +204,7 @@ exports.ToNumber = function (argument) {
 
 // http://people.mozilla.org/~jorendorff/es6-draft.html#sec-tointeger
 exports.ToInteger = function (argument) {
-    let number = exports.ToNumber(argument);
+    const number = exports.ToNumber(argument);
     if (Number_isNaN(number)) {
         return +0;
     }
@@ -218,7 +218,7 @@ exports.ToInteger = function (argument) {
 
 // http://people.mozilla.org/~jorendorff/es6-draft.html#sec-tolength
 exports.ToLength = function (argument) {
-    let len = exports.ToInteger(argument);
+    const len = exports.ToInteger(argument);
     if (len <= +0) {
         return +0;
     }
@@ -316,8 +316,8 @@ exports.DayWithinYear = function (t) {
 
 // https://people.mozilla.org/~jorendorff/es6-draft.html#sec-month-number
 exports.MonthFromTime = function (t) {
-    var day = exports.DayWithinYear(t);
-    var leap = exports.InLeapYear(t);
+    const day = exports.DayWithinYear(t);
+    const leap = exports.InLeapYear(t);
     if (0 <= day && day < 31) {
         return 0;
     }
@@ -405,17 +405,17 @@ exports.MakeTime = function (hour, min, sec, ms) {
     ) {
         return NaN;
     }
-    var h = exports.ToInteger(hour);
-    var m = exports.ToInteger(min);
-    var s = exports.ToInteger(sec);
-    var milli = exports.ToInteger(ms);
-    var t = h * msPerHour + m * msPerMinute + s * msPerSecond + milli;
+    const h = exports.ToInteger(hour);
+    const m = exports.ToInteger(min);
+    const s = exports.ToInteger(sec);
+    const milli = exports.ToInteger(ms);
+    const t = h * msPerHour + m * msPerMinute + s * msPerSecond + milli;
     return t;
 };
 
 // Utility function used in `MakeDay`.
 function zeroPad(number, total) {
-    var string = String(number);
+    const string = String(number);
     return string.length < total ?
         "0".repeat(total - string.length) + string:
         string;
@@ -429,12 +429,12 @@ exports.MakeDay = function (year, month, date) {
     ) {
         return NaN;
     }
-    var y = exports.ToInteger(year);
-    var m = exports.ToInteger(month);
-    var dt = exports.ToInteger(date);
-    var ym = y + floor(m / 12);
-    var mn = m % 12;
-    var t = Date.parse(zeroPad(ym, 4) + "-" + zeroPad(mn, 2) + "-01T00:00:00.000Z");
+    const y = exports.ToInteger(year);
+    const m = exports.ToInteger(month);
+    const dt = exports.ToInteger(date);
+    const ym = y + floor(m / 12);
+    const mn = m % 12;
+    const t = Date.parse(zeroPad(ym, 4) + "-" + zeroPad(mn, 2) + "-01T00:00:00.000Z");
     if (Number_isNaN(t)) {
         return NaN;
     }
@@ -454,7 +454,7 @@ exports.GetMethod = function (O, P) {
     assert(exports.Type(O) === "Object");
     assert(exports.IsPropertyKey(P) === true);
 
-    let func = O[P];
+    const func = O[P];
 
     if (func === undefined) {
         return undefined;
@@ -469,7 +469,7 @@ exports.GetMethod = function (O, P) {
 
 // http://people.mozilla.org/~jorendorff/es6-draft.html#sec-getiterator
 exports.GetIterator = function (obj) {
-    let iterator = exports.Invoke(obj, atAtIterator, []);
+    const iterator = exports.Invoke(obj, atAtIterator, []);
 
     if (exports.Type(iterator) !== "Object") {
         throw new TypeError("Non-object iterator returned from @@iterator");
@@ -480,7 +480,7 @@ exports.GetIterator = function (obj) {
 
 // http://people.mozilla.org/~jorendorff/es6-draft.html#sec-iteratornext
 exports.IteratorNext = function (iterator, value) {
-    let result = exports.Invoke(iterator, "next", [value]);
+    const result = exports.Invoke(iterator, "next", [value]);
 
     if (exports.Type(result) !== "Object") {
         throw new TypeError("Result of iterator's `next` method was not an object.");
@@ -493,7 +493,7 @@ exports.IteratorNext = function (iterator, value) {
 exports.IteratorComplete = function (iterResult) {
     assert(exports.Type(iterResult) === "Object");
 
-    let done = exports.Get(iterResult, "done");
+    const done = exports.Get(iterResult, "done");
 
     return exports.ToBoolean(done);
 };
@@ -507,8 +507,8 @@ exports.IteratorValue = function (iterResult) {
 
 // http://people.mozilla.org/~jorendorff/es6-draft.html#sec-iteratorstep
 exports.IteratorStep = function (iterator, value) {
-    let result = exports.IteratorNext(iterator, value);
-    let done = exports.IteratorComplete(result);
+    const result = exports.IteratorNext(iterator, value);
+    const done = exports.IteratorComplete(result);
 
     if (done === true) {
         return false;
@@ -532,7 +532,7 @@ exports.EnqueueJob = function (queueName, job, args) {
 exports.SpeciesConstructor = function (O, defaultConstructor) {
     assert(exports.Type(O) === "Object");
 
-    var C = exports.Get(O, "constructor");
+    const C = exports.Get(O, "constructor");
     if (C === undefined) {
         return defaultConstructor;
     }
@@ -540,7 +540,7 @@ exports.SpeciesConstructor = function (O, defaultConstructor) {
         throw new TypeError("Tried to get species but the constructor property was not an object.");
     }
 
-    var S = exports.Get(C, atAtSpecies);
+    const S = exports.Get(C, atAtSpecies);
     if (S === undefined || S === null) {
         return defaultConstructor;
     }

@@ -1,11 +1,11 @@
 "use strict";
 
-var assert = require("./meta").assert;
+const assert = require("./meta").assert;
 
-var global_isNaN = global.isNaN;
-var Math_abs = Math.abs;
-var Math_floor = Math.floor;
-var Math_min = Math.min;
+const global_isNaN = global.isNaN;
+const Math_abs = Math.abs;
+const Math_floor = Math.floor;
+const Math_min = Math.min;
 
 exports.sign = function (x) {
     assert(typeof x === "number");
@@ -31,8 +31,8 @@ exports.abs = function (x) {
 };
 
 exports.min = function () {
-    for (var i = 0; i < arguments.length; ++i) {
-        var x = arguments[i];
+    for (let i = 0; i < arguments.length; ++i) {
+        const x = arguments[i];
         assert(typeof x === "number");
         assert(!global_isNaN(x));
     }
