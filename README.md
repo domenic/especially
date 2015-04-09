@@ -20,12 +20,13 @@ Especially has no main module (*gasp*). Instead, you'll require one of the top-l
 - [DayWithinYear](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-month-number)
 - [EnqueueJob](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-enqueuejob)
 - [Get](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-get-o-p)
+- [GetV](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-getv)
 - [GetIterator](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-getiterator): uses the `@@iterator` symbol.
 - [GetMethod](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-getmethod)
 - [GetPrototypeFromConstructor](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-getprototypefromconstructor)
 - [HasProperty](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-hasproperty)
 - [InLeapYear](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-year-number)
-- [Invoke](https://github.com/domenic/promises-unwrapping/issues/74#issuecomment-28428416)
+- [Invoke](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-invoke)
 - [IsCallable](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-iscallable)
 - [IsConstructor](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-isconstructor): not spec compliant, but the best we can do
 - [IsPropertyKey](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-ispropertykey)

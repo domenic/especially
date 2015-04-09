@@ -40,6 +40,23 @@ exports.IsConstructor = function (argument) {
     return typeof argument === "function";
 };
 
+// https://people.mozilla.org/~jorendorff/es6-draft.html#sec-invoke
+exports.Invoke = function (O, P, argumentsList) {
+    assert(exports.IsPropertyKey(P) === true);
+    if (arguments.length === 2) {
+        argumentsList = [];
+    }
+
+    var func = exports.GetV(O, P);
+    return exports.Call(func, O, argumentsList);
+};
+
+// https://people.mozilla.org/~jorendorff/es6-draft.html#sec-getv
+exports.GetV = function (V, P) {
+    assert(exports.IsPropertyKey(P) === true);
+    return V[P];
+};
+
 // http://people.mozilla.org/~jorendorff/es6-draft.html#sec-ecmascript-data-types-and-values
 //   From https://gist.github.com/Benvie/7778566
 exports.Type = function (x) {
@@ -447,24 +464,6 @@ exports.GetMethod = function (O, P) {
     }
 
     return func;
-};
-
-// https://github.com/domenic/promises-unwrapping/issues/74#issuecomment-28428416
-exports.Invoke = function (O, P, args) {
-    assert(exports.IsPropertyKey(P));
-
-    if (arguments.length < 3) {
-        args = [];
-    }
-
-    let obj = exports.ToObject(O);
-    let func = exports.GetMethod(obj, P);
-
-    if (func === undefined) {
-        throw new TypeError("Tried to invoke undefined method.");
-    }
-
-    return func.apply(O, args);
 };
 
 // http://people.mozilla.org/~jorendorff/es6-draft.html#sec-getiterator
