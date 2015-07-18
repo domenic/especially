@@ -1132,10 +1132,8 @@ describe("Abstract operations", function () {
     });
 
     describe("GetMethod", function () {
-        it("should throw an assertion error when used on a non-object", function () {
-            assert.throws(function () {
-                abstractOps.GetMethod(5, "valueOf");
-            }, /assertion failure/);
+        it("should return methods of non-objects", function () {
+            assert.strictEqual(abstractOps.GetMethod(5, "valueOf"), Number.prototype.valueOf);
         });
 
         it("should throw an assertion error when used with a non-property key", function () {
@@ -1149,6 +1147,10 @@ describe("Abstract operations", function () {
 
             assert.strictEqual(abstractOps.GetMethod({}, "foo"), undefined);
             assert.strictEqual(abstractOps.GetMethod({}, symbol), undefined);
+        });
+
+        it("should return null methods as `undefined`", function () {
+            assert.strictEqual(abstractOps.GetMethod({ foo: null }, "foo"), undefined);
         });
 
         it("should return callable methods", function () {

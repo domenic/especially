@@ -451,12 +451,11 @@ exports.MakeDate = function (day, time) {
 
 // http://people.mozilla.org/~jorendorff/es6-draft.html#sec-getmethod
 exports.GetMethod = function (O, P) {
-    assert(exports.Type(O) === "Object");
     assert(exports.IsPropertyKey(P) === true);
 
-    const func = O[P];
+    const func = exports.GetV(O, P);
 
-    if (func === undefined) {
+    if (func === undefined || func === null) {
         return undefined;
     }
 
