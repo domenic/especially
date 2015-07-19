@@ -1152,8 +1152,6 @@ describe("Abstract operations", function () {
         });
 
         it("should return null methods as `undefined`", function () {
-            var symbol = Symbol();
-
             assert.strictEqual(abstractOps.GetMethod({ foo: null }, "foo"), undefined);
         });
 
