@@ -1151,6 +1151,12 @@ describe("Abstract operations", function () {
             assert.strictEqual(abstractOps.GetMethod({}, symbol), undefined);
         });
 
+        it("should return null methods as `undefined`", function () {
+            var symbol = Symbol();
+
+            assert.strictEqual(abstractOps.GetMethod({ foo: null }, "foo"), undefined);
+        });
+
         it("should return callable methods", function () {
             var symbol = Symbol();
 
