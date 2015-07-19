@@ -1133,7 +1133,7 @@ describe("Abstract operations", function () {
 
     describe("GetMethod", function () {
         it("should return methods of non-objects", function () {
-            assert.strictEqual(abstractOps.GetMethod(5, "valueOf"), Object.prototype.valueOf);
+            assert.strictEqual(abstractOps.GetMethod(5, "valueOf"), Number.prototype.valueOf);
         });
 
         it("should throw an assertion error when used with a non-property key", function () {
