@@ -2,7 +2,7 @@
     "name": "especially",
     "description": "Abstract operations and other functions drawn from the ECMAScript specification",
     "keywords": ["ecmascript", "es6", "es2015"],
-    "version": "2.0.0",
+    "version": "2.0.1",
     "author": "Domenic Denicola <d@domenic.me> (https://domenic.me)",
     "license": "WTFPL",
     "repository": "domenic/especially",
