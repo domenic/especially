@@ -1,6 +1,6 @@
 "use strict";
 
-// http://people.mozilla.org/~jorendorff/es6-draft.html#sec-well-known-intrinsic-objects
+// https://tc39.github.io/ecma262/#sec-well-known-intrinsic-objects
 
 exports["%Object%"] = Object;
 exports["%ObjectPrototype%"] = Object.prototype;

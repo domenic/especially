@@ -16,7 +16,7 @@ const Number_isNaN = Number.isNaN;
 const Math_pow = Math.pow;
 const Object_is = Object.is;
 
-// https://people.mozilla.org/~jorendorff/es6-draft.html#sec-call
+// https://tc39.github.io/ecma262/#sec-call
 exports.Call = function (F, V, argumentsList) {
     if (arguments.length === 2) {
         argumentsList = [];
@@ -29,19 +29,19 @@ exports.Call = function (F, V, argumentsList) {
     return F.apply(V, argumentsList);
 };
 
-// http://people.mozilla.org/~jorendorff/es6-draft.html#sec-iscallable
+// https://tc39.github.io/ecma262/#sec-iscallable
 exports.IsCallable = function (argument) {
     return typeof argument === "function";
 };
 
-// http://people.mozilla.org/~jorendorff/es6-draft.html#sec-isconstructor
+// https://tc39.github.io/ecma262/#sec-isconstructor
 //   The actual steps include testing whether `x` has a `[[Construct]]` internal method.
 //   This is NOT possible to determine in pure JS, so this is just an approximation.
 exports.IsConstructor = function (argument) {
     return typeof argument === "function";
 };
 
-// https://people.mozilla.org/~jorendorff/es6-draft.html#sec-invoke
+// https://tc39.github.io/ecma262/#sec-invoke
 exports.Invoke = function (O, P, argumentsList) {
     assert(exports.IsPropertyKey(P) === true);
     if (arguments.length === 2) {
@@ -52,13 +52,13 @@ exports.Invoke = function (O, P, argumentsList) {
     return exports.Call(func, O, argumentsList);
 };
 
-// https://people.mozilla.org/~jorendorff/es6-draft.html#sec-getv
+// https://tc39.github.io/ecma262/#sec-getv
 exports.GetV = function (V, P) {
     assert(exports.IsPropertyKey(P) === true);
     return V[P];
 };
 
-// http://people.mozilla.org/~jorendorff/es6-draft.html#sec-ecmascript-data-types-and-values
+// https://tc39.github.io/ecma262/#sec-ecmascript-data-types-and-values
 //   From https://gist.github.com/Benvie/7778566
 exports.Type = function (x) {
     switch (typeof x) {
@@ -82,7 +82,7 @@ exports.Type = function (x) {
     }
 };
 
-// http://people.mozilla.org/~jorendorff/es6-draft.html#sec-ispropertykey
+// https://tc39.github.io/ecma262/#sec-ispropertykey
 exports.IsPropertyKey = function (argument) {
     if (exports.Type(argument) === "String") {
         return true;
@@ -93,7 +93,7 @@ exports.IsPropertyKey = function (argument) {
     return false;
 };
 
-// http://people.mozilla.org/~jorendorff/es6-draft.html#sec-get-o-p
+// https://tc39.github.io/ecma262/#sec-get-o-p
 exports.Get = function (O, P) {
     assert(exports.Type(O) === "Object");
     assert(exports.IsPropertyKey(P) === true);
@@ -101,7 +101,7 @@ exports.Get = function (O, P) {
     return O[P];
 };
 
-/// http://people.mozilla.org/~jorendorff/es6-draft.html#sec-createdataproperty
+/// https://tc39.github.io/ecma262/#sec-createdataproperty
 exports.CreateDataProperty = function (O, P, V) {
     assert(exports.Type(O) === "Object");
     assert(exports.IsPropertyKey(P) === true);
@@ -110,24 +110,24 @@ exports.CreateDataProperty = function (O, P, V) {
     return Object.defineProperty(O, P, newDesc);
 };
 
-// http://people.mozilla.org/~jorendorff/es6-draft.html#sec-hasproperty
+// https://tc39.github.io/ecma262/#sec-hasproperty
 exports.HasProperty = function (O, P) {
     assert(exports.Type(O) === "Object");
     assert(exports.IsPropertyKey(P) === true);
     return P in O;
 };
 
-// http://people.mozilla.org/~jorendorff/es6-draft.html#sec-samevalue
+// https://tc39.github.io/ecma262/#sec-samevalue
 exports.SameValue = function (x, y) {
     return Object_is(x, y);
 };
 
-// http://people.mozilla.org/~jorendorff/es6-draft.html#sec-samevaluezero
+// https://tc39.github.io/ecma262/#sec-samevaluezero
 exports.SameValueZero = function (x, y) {
     return (x === 0 && y === 0) || Object_is(x, y);
 };
 
-// http://people.mozilla.org/~jorendorff/es6-draft.html#sec-arraycreate
+// https://tc39.github.io/ecma262/#sec-arraycreate
 // plus https://bugs.ecmascript.org/show_bug.cgi?id=2346
 exports.ArrayCreate = function (length) {
     assert(length === undefined || exports.Type(length) === "Number" && length >= 0);
@@ -141,7 +141,7 @@ exports.ArrayCreate = function (length) {
     return new Array(length);
 };
 
-// http://people.mozilla.org/~jorendorff/es6-draft.html#sec-objectcreate
+// https://tc39.github.io/ecma262/#sec-objectcreate
 exports.ObjectCreate = function (proto, internalSlotsList) {
     if (internalSlotsList === undefined) {
         internalSlotsList = [];
@@ -153,7 +153,7 @@ exports.ObjectCreate = function (proto, internalSlotsList) {
     return obj;
 };
 
-// http://people.mozilla.org/~jorendorff/es6-draft.html#sec-getprototypefromconstructor
+// https://tc39.github.io/ecma262/#sec-getprototypefromconstructor
 exports.GetPrototypeFromConstructor = function (constructor, intrinsicDefaultProto) {
     assert(exports.Type(intrinsicDefaultProto) === "String" && intrinsicDefaultProto in intrinsics);
 
@@ -170,7 +170,7 @@ exports.GetPrototypeFromConstructor = function (constructor, intrinsicDefaultPro
     return proto;
 };
 
-// http://people.mozilla.org/~jorendorff/es6-draft.html#sec-ordinarycreatefromconstructor
+// https://tc39.github.io/ecma262/#sec-ordinarycreatefromconstructor
 exports.OrdinaryCreateFromConstructor = function (constructor, intrinsicDefaultProto, internalSlotsList) {
     assert(exports.Type(intrinsicDefaultProto) === "String" && intrinsicDefaultProto in intrinsics);
 
@@ -178,7 +178,7 @@ exports.OrdinaryCreateFromConstructor = function (constructor, intrinsicDefaultP
     return exports.ObjectCreate(proto, internalSlotsList);
 };
 
-// http://people.mozilla.org/~jorendorff/es6-draft.html#sec-toobject
+// https://tc39.github.io/ecma262/#sec-toobject
 exports.ToObject = function (argument) {
     if (argument === null || argument === undefined) {
         throw new TypeError("Null or undefined passed to ToObject");
@@ -187,22 +187,22 @@ exports.ToObject = function (argument) {
     return global_Object(argument);
 };
 
-// http://people.mozilla.org/~jorendorff/es6-draft.html#sec-toboolean
+// https://tc39.github.io/ecma262/#sec-toboolean
 exports.ToBoolean = function (argument) {
     return !!argument;
 };
 
-// http://people.mozilla.org/~jorendorff/es6-draft.html#sec-tostring
+// https://tc39.github.io/ecma262/#sec-tostring
 exports.ToString = function (argument) {
     return global_String(argument);
 };
 
-// http://people.mozilla.org/~jorendorff/es6-draft.html#sec-tonumber
+// https://tc39.github.io/ecma262/#sec-tonumber
 exports.ToNumber = function (argument) {
     return +argument;
 };
 
-// http://people.mozilla.org/~jorendorff/es6-draft.html#sec-tointeger
+// https://tc39.github.io/ecma262/#sec-tointeger
 exports.ToInteger = function (argument) {
     const number = exports.ToNumber(argument);
     if (Number_isNaN(number)) {
@@ -216,7 +216,7 @@ exports.ToInteger = function (argument) {
     return sign(number) * floor(abs(number));
 };
 
-// http://people.mozilla.org/~jorendorff/es6-draft.html#sec-tolength
+// https://tc39.github.io/ecma262/#sec-tolength
 exports.ToLength = function (argument) {
     const len = exports.ToInteger(argument);
     if (len <= +0) {
@@ -226,7 +226,7 @@ exports.ToLength = function (argument) {
     return min(len, Math_pow(2, 53) - 1);
 };
 
-// https://people.mozilla.org/~jorendorff/es6-draft.html#sec-hours-minutes-second-and-milliseconds
+// https://tc39.github.io/ecma262/#sec-hours-minutes-second-and-milliseconds
 const HoursPerDay = 24;
 const MinutesPerHour = 60;
 const SecondsPerMinute = 60;
@@ -234,46 +234,46 @@ const msPerSecond = 1000;
 const msPerMinute = msPerSecond * SecondsPerMinute;
 const msPerHour = msPerMinute * MinutesPerHour;
 
-// https://people.mozilla.org/~jorendorff/es6-draft.html#sec-day-number-and-time-within-day
+// https://tc39.github.io/ecma262/#sec-day-number-and-time-within-day
 const msPerDay = 86400000;
 
-// https://people.mozilla.org/~jorendorff/es6-draft.html#sec-hours-minutes-second-and-milliseconds
+// https://tc39.github.io/ecma262/#sec-hours-minutes-second-and-milliseconds
 exports.HourFromTime = function (t) {
     return floor(t / msPerHour) % HoursPerDay;
 };
 
-// https://people.mozilla.org/~jorendorff/es6-draft.html#sec-hours-minutes-second-and-milliseconds
+// https://tc39.github.io/ecma262/#sec-hours-minutes-second-and-milliseconds
 exports.MinFromTime = function (t) {
     return floor(t / msPerMinute) % MinutesPerHour;
 };
 
-// https://people.mozilla.org/~jorendorff/es6-draft.html#sec-hours-minutes-second-and-milliseconds
+// https://tc39.github.io/ecma262/#sec-hours-minutes-second-and-milliseconds
 exports.SecFromTime = function (t) {
     return floor(t / msPerSecond) % SecondsPerMinute;
 };
 
-// https://people.mozilla.org/~jorendorff/es6-draft.html#sec-hours-minutes-second-and-milliseconds
+// https://tc39.github.io/ecma262/#sec-hours-minutes-second-and-milliseconds
 exports.msFromTime = function (t) {
     return t % msPerSecond;
 };
 
-// https://people.mozilla.org/~jorendorff/es6-draft.html#sec-year-number
+// https://tc39.github.io/ecma262/#sec-year-number
 exports.TimeFromYear = function (y) {
     return msPerDay * exports.DayFromYear(y);
 };
 
-// https://people.mozilla.org/~jorendorff/es6-draft.html#sec-year-number
+// https://tc39.github.io/ecma262/#sec-year-number
 exports.DayFromYear = function (y) {
     return 365 * (y - 1970) + floor((y - 1969) / 4) -
         floor((y - 1901) / 100) + floor((y - 1601) / 400);
 };
 
-// https://people.mozilla.org/~jorendorff/es6-draft.html#sec-year-number
+// https://tc39.github.io/ecma262/#sec-year-number
 exports.YearFromTime = function (t) {
     return new Date(t).getUTCFullYear();
 };
 
-// https://people.mozilla.org/~jorendorff/es6-draft.html#sec-year-number
+// https://tc39.github.io/ecma262/#sec-year-number
 exports.DaysInYear = function (y) {
     if ((y % 4) !== 0) {
         return 365;
@@ -289,7 +289,7 @@ exports.DaysInYear = function (y) {
     }
 };
 
-// https://people.mozilla.org/~jorendorff/es6-draft.html#sec-year-number
+// https://tc39.github.io/ecma262/#sec-year-number
 exports.InLeapYear = function (t) {
     switch (exports.DaysInYear(exports.YearFromTime(t))) {
         case 365:
@@ -299,22 +299,22 @@ exports.InLeapYear = function (t) {
     }
 };
 
-// https://people.mozilla.org/~jorendorff/es6-draft.html#sec-day-number-and-time-within-day
+// https://tc39.github.io/ecma262/#sec-day-number-and-time-within-day
 exports.Day = function (t) {
     return floor(t / msPerDay);
 };
 
-// https://people.mozilla.org/~jorendorff/es6-draft.html#sec-day-number-and-time-within-day
+// https://tc39.github.io/ecma262/#sec-day-number-and-time-within-day
 exports.TimeWithinDay = function (t) {
     return t % msPerDay;
 };
 
-// https://people.mozilla.org/~jorendorff/es6-draft.html#sec-month-number
+// https://tc39.github.io/ecma262/#sec-month-number
 exports.DayWithinYear = function (t) {
     return exports.Day(t) - exports.DayFromYear(exports.YearFromTime(t));
 };
 
-// https://people.mozilla.org/~jorendorff/es6-draft.html#sec-month-number
+// https://tc39.github.io/ecma262/#sec-month-number
 exports.MonthFromTime = function (t) {
     const day = exports.DayWithinYear(t);
     const leap = exports.InLeapYear(t);
@@ -356,7 +356,7 @@ exports.MonthFromTime = function (t) {
     }
 };
 
-// https://people.mozilla.org/~jorendorff/es6-draft.html#sec-date-number
+// https://tc39.github.io/ecma262/#sec-date-number
 exports.DateFromTime = function (t) {
     switch (exports.MonthFromTime(t)) {
         case 0:
@@ -386,7 +386,7 @@ exports.DateFromTime = function (t) {
     }
 };
 
-// https://people.mozilla.org/~jorendorff/es6-draft.html#sec-timeclip
+// https://tc39.github.io/ecma262/#sec-timeclip
 exports.TimeClip = function (time) {
     if (!Number.isFinite(time)) {
         return NaN;
@@ -397,7 +397,7 @@ exports.TimeClip = function (time) {
     return exports.ToInteger(time) + (+0);
 };
 
-// https://people.mozilla.org/~jorendorff/es6-draft.html#sec-maketime
+// https://tc39.github.io/ecma262/#sec-maketime
 exports.MakeTime = function (hour, min, sec, ms) {
     if (
         !Number.isFinite(hour) || !Number.isFinite(min) ||
@@ -421,7 +421,7 @@ function zeroPad(number, total) {
         string;
 }
 
-// https://people.mozilla.org/~jorendorff/es6-draft.html#sec-makeday
+// https://tc39.github.io/ecma262/#sec-makeday
 exports.MakeDay = function (year, month, date) {
     if (
         !Number.isFinite(year) || !Number.isFinite(month) ||
@@ -441,7 +441,7 @@ exports.MakeDay = function (year, month, date) {
     return exports.Day(t) + dt - 1;
 };
 
-// https://people.mozilla.org/~jorendorff/es6-draft.html#sec-makedate
+// https://tc39.github.io/ecma262/#sec-makedate
 exports.MakeDate = function (day, time) {
     if (!Number.isFinite(day) || !Number.isFinite(time)) {
         return NaN;
@@ -449,7 +449,7 @@ exports.MakeDate = function (day, time) {
     return day * msPerDay + time;
 };
 
-// http://people.mozilla.org/~jorendorff/es6-draft.html#sec-getmethod
+// https://tc39.github.io/ecma262/#sec-getmethod
 exports.GetMethod = function (O, P) {
     assert(exports.IsPropertyKey(P) === true);
 
@@ -466,7 +466,7 @@ exports.GetMethod = function (O, P) {
     return func;
 };
 
-// http://people.mozilla.org/~jorendorff/es6-draft.html#sec-getiterator
+// https://tc39.github.io/ecma262/#sec-getiterator
 exports.GetIterator = function (obj) {
     const iterator = exports.Invoke(obj, atAtIterator, []);
 
@@ -477,7 +477,7 @@ exports.GetIterator = function (obj) {
     return iterator;
 };
 
-// http://people.mozilla.org/~jorendorff/es6-draft.html#sec-iteratornext
+// https://tc39.github.io/ecma262/#sec-iteratornext
 exports.IteratorNext = function (iterator, value) {
     const result = exports.Invoke(iterator, "next", [value]);
 
@@ -488,7 +488,7 @@ exports.IteratorNext = function (iterator, value) {
     return result;
 };
 
-// http://people.mozilla.org/~jorendorff/es6-draft.html#sec-iteratorcomplete
+// https://tc39.github.io/ecma262/#sec-iteratorcomplete
 exports.IteratorComplete = function (iterResult) {
     assert(exports.Type(iterResult) === "Object");
 
@@ -497,14 +497,14 @@ exports.IteratorComplete = function (iterResult) {
     return exports.ToBoolean(done);
 };
 
-// http://people.mozilla.org/~jorendorff/es6-draft.html#sec-iteratorvalue
+// https://tc39.github.io/ecma262/#sec-iteratorvalue
 exports.IteratorValue = function (iterResult) {
     assert(exports.Type(iterResult) === "Object");
 
     return exports.Get(iterResult, "value");
 };
 
-// http://people.mozilla.org/~jorendorff/es6-draft.html#sec-iteratorstep
+// https://tc39.github.io/ecma262/#sec-iteratorstep
 exports.IteratorStep = function (iterator, value) {
     const result = exports.IteratorNext(iterator, value);
     const done = exports.IteratorComplete(result);
@@ -516,7 +516,7 @@ exports.IteratorStep = function (iterator, value) {
     return result;
 };
 
-// https://people.mozilla.org/~jorendorff/es6-draft.html#sec-enqueuejob
+// https://tc39.github.io/ecma262/#sec-enqueuejob
 exports.EnqueueJob = function (queueName, job, args) {
     assert(exports.Type(queueName) === "String");
     assert(typeof job === "function");
@@ -527,7 +527,7 @@ exports.EnqueueJob = function (queueName, job, args) {
     });
 };
 
-// https://people.mozilla.org/~jorendorff/es6-draft.html#sec-speciesconstructor
+// https://tc39.github.io/ecma262/#sec-speciesconstructor
 exports.SpeciesConstructor = function (O, defaultConstructor) {
     assert(exports.Type(O) === "Object");
 
