@@ -4,7 +4,7 @@
 
 const slotsMap = new WeakMap();
 
-// http://people.mozilla.org/~jorendorff/es6-draft.html#sec-algorithm-conventions
+// https://tc39.github.io/ecma262/#sec-algorithm-conventions
 exports.assert = function (condition) {
     if (condition !== true && condition !== false) {
         throw new TypeError("Assertions should be only of booleans; you're writing your spec wrong.");
@@ -15,7 +15,7 @@ exports.assert = function (condition) {
     }
 };
 
-// Slots: http://people.mozilla.org/~jorendorff/es6-draft.html#sec-object-internal-methods-and-internal-slots
+// Slots: https://tc39.github.io/ecma262/#sec-object-internal-methods-and-internal-slots
 
 exports.make_slots = function (obj, names) {
     exports.assert(!slotsMap.has(obj));
@@ -46,7 +46,7 @@ exports.has_slot = function (obj, name) {
     return slotsMap.has(obj) && name in slotsMap.get(obj);
 };
 
-// http://people.mozilla.org/~jorendorff/es6-draft.html#sec-ecmascript-standard-built-in-objects
+// https://tc39.github.io/ecma262/#sec-ecmascript-standard-built-in-objects
 exports.define_built_in_data_property = function (object, propertyName, value) {
     Object.defineProperty(object, propertyName, {
         value: value,
