@@ -29,6 +29,34 @@ exports.Call = function (F, V, argumentsList) {
     return F.apply(V, argumentsList);
 };
 
+// https://tc39.github.io/ecma262/#sec-construct
+//   The actual steps include accessing `F`'s `[[Construct]]` internal method.
+//   This is NOT possible to perform in pure JS, so this is just an approximation.
+exports.Construct = function (F, argumentsList, newTarget) {
+    if (arguments.length < 3) {
+        newTarget = F;
+    }
+
+    if (arguments.length === 1) {
+        argumentsList = [];
+    }
+
+    assert(exports.IsConstructor(F) === true);
+    assert(exports.IsConstructor(newTarget) === true);
+
+    if (exports.IsCallable(F) === false) {
+        throw new TypeError("Tried to call a non-callable function.");
+    }
+
+    return new F(...argumentsList);
+};
+
+// https://tc39.github.io/ecma262/#sec-isarray
+//   This assumes the engine has a ES2015-compliant `Array.isArray` implementation.
+exports.IsArray = function (argument) {
+    return Array.isArray(argument);
+};
+
 // http://people.mozilla.org/~jorendorff/es6-draft.html#sec-iscallable
 exports.IsCallable = function (argument) {
     return typeof argument === "function";
@@ -39,6 +67,20 @@ exports.IsCallable = function (argument) {
 //   This is NOT possible to determine in pure JS, so this is just an approximation.
 exports.IsConstructor = function (argument) {
     return typeof argument === "function";
+};
+
+// https://tc39.github.io/ecma262/#sec-isinteger
+exports.IsInteger = function (argument) {
+    if (exports.Type(argument) !== "Number") {
+        return false;
+    }
+    if (isNaN(argument) || argument === Infinity || argument === -Infinity) {
+        return false;
+    }
+    if (Math.floor(Math.abs(argument)) !== Math.abs(argument)) {
+        return false;
+    }
+    return true;
 };
 
 // https://people.mozilla.org/~jorendorff/es6-draft.html#sec-invoke
@@ -108,6 +150,18 @@ exports.CreateDataProperty = function (O, P, V) {
 
     const newDesc = { value: V, writable: true, enumerable: true, configurable: true };
     return Object.defineProperty(O, P, newDesc);
+};
+
+// https://tc39.github.io/ecma262/#sec-createdatapropertyorthrow
+exports.CreateDataPropertyOrThrow = function (O, P, V) {
+    assert(exports.Type(O) === "Object");
+    assert(exports.IsPropertyKey(P) === true);
+
+    const success = exports.CreateDataProperty(O, P, V);
+    if (success === false) {
+        throw new TypeError("Object is not extensible or property is not configurable.");
+    }
+    return success;
 };
 
 // http://people.mozilla.org/~jorendorff/es6-draft.html#sec-hasproperty
@@ -549,4 +603,41 @@ exports.SpeciesConstructor = function (O, defaultConstructor) {
     }
 
     throw new TypeError("Result of getting species was a non-constructor.");
+};
+
+// https://tc39.github.io/ecma262/#sec-arrayspeciescreate
+//   The actual steps include comparing the Realms of `originalArray` and of its constructor.
+//   This is NOT possible to perform in pure JS, so this is just an approximation.
+exports.ArraySpeciesCreate = function (originalArray, length) {
+    assert(exports.IsInteger(length) && length >= 0);
+
+    if (Object_is(length, -0)) {
+        length = 0;
+    }
+
+    let C;
+    const isArray = exports.IsArray(originalArray);
+
+    if (isArray === true) {
+        C = exports.Get(originalArray, "constructor");
+
+        // TODO [[Realm]]
+
+        if (exports.Type(C) === "Object") {
+            C = exports.Get(C, atAtSpecies);
+            if (C === null) {
+                C = undefined;
+            }
+        }
+    }
+
+    if (C === undefined) {
+        return exports.ArrayCreate(length);
+    }
+
+    if (exports.IsConstructor(C) === false) {
+        throw new TypeError("Result of getting species was a non-constructor.");
+    }
+
+    return exports.Construct(C, [length]);
 };

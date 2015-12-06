@@ -94,11 +94,11 @@ describe("Abstract operations", function () {
         });
 
         it("returns false for objects", function () {
-            assert.strictEqual(abstractOps.IsCallable({}), false)
+            assert.strictEqual(abstractOps.IsCallable({}), false);
         });
 
         it("returns false for `undefined`", function () {
-            assert.strictEqual(abstractOps.IsCallable(undefined), false)
+            assert.strictEqual(abstractOps.IsCallable(undefined), false);
         });
     });
 
@@ -108,11 +108,11 @@ describe("Abstract operations", function () {
         });
 
         it("returns false for objects", function () {
-            assert.strictEqual(abstractOps.IsConstructor({}), false)
+            assert.strictEqual(abstractOps.IsConstructor({}), false);
         });
 
         it("returns false for `undefined`", function () {
-            assert.strictEqual(abstractOps.IsConstructor(undefined), false)
+            assert.strictEqual(abstractOps.IsConstructor(undefined), false);
         });
     });
 
@@ -1306,7 +1306,7 @@ describe("Abstract operations", function () {
             var doneFalse = { done: false };
             var doneTruthy = { done: 1 };
             var doneFalsy = { done: NaN };
-            var doneGetTruthy = { get done() { return {}; } }
+            var doneGetTruthy = { get done() { return {}; } };
             var doneGetFalsy = { get done() { return ""; } };
 
             assert.strictEqual(abstractOps.IteratorComplete(noProps), false);
@@ -1333,7 +1333,7 @@ describe("Abstract operations", function () {
             var valueTrue = { value: true };
             var value1 = { value: 1 };
             var valueObject = { value: value };
-            var valueGetTrue = { get value() { return true; } }
+            var valueGetTrue = { get value() { return true; } };
             var valueGet1 = { get value() { return 1; } };
             var valueGetObject = { get value() { return value; } };
 

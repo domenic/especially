@@ -76,10 +76,10 @@ A variety of math operations from the [Algorithm Conventions](http://people.mozi
 
 ### require("especially/well-known-symbols")
 
-One [well-known symbol](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-well-known-symbols) is included:
+Some of the [well-known symbols](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-well-known-symbols) are included:
 
 - `"@@iterator"` will give you a symbol that is used by GetIterator. (It is the same as V8's default `Symbol.iterator`.)
-- `"@@species"` will give the symbol that is used by SpeciesConstructor. (It is a freshly-minted symbol, since V8 doesn't have `Symbol.species` yet.)
+- `"@@species"` will give the symbol that is used by SpeciesConstructor. (It is a freshly-minted symbol in environments that don't have `Symbol.species` implemented yet.)
 
 ### require("especially/intrinsics")
 
@@ -87,7 +87,7 @@ Some of the [well-known intrinsic objects](http://people.mozilla.org/~jorendorff
 
 ## Usage Notes
 
-Especially is meant to run in io.js (not Node.js™). It uses certain ES2015 features only implemented in modern V8.
+Especially is meant to run in Node.js >= 5. It uses certain ES2015 features only implemented in modern V8.
 
 Install it from npm into your project with `npm install especially`.
 
