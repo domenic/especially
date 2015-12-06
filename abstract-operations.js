@@ -152,6 +152,18 @@ exports.CreateDataProperty = function (O, P, V) {
     return Object.defineProperty(O, P, newDesc);
 };
 
+// https://tc39.github.io/ecma262/#sec-createdatapropertyorthrow
+exports.CreateDataPropertyOrThrow = function (O, P, V) {
+    assert(exports.Type(O) === "Object");
+    assert(exports.IsPropertyKey(P) === true);
+
+    const success = exports.CreateDataProperty(O, P, V);
+    if (success === false) {
+        throw new TypeError("Object is not extensible or property is not configurable.");
+    }
+    return success;
+};
+
 // http://people.mozilla.org/~jorendorff/es6-draft.html#sec-hasproperty
 exports.HasProperty = function (O, P) {
     assert(exports.Type(O) === "Object");
